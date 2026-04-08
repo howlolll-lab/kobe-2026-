@@ -1066,6 +1066,7 @@ body.pdf-export .card{
 
 
 
+
 <script>
 // ── Page switching ──
 function showPage(id, btn) {
@@ -1077,60 +1078,17 @@ function showPage(id, btn) {
   window.scrollTo(0,0);
 }
 
-async function buildExportWrap(includeCover) {
-  const MOBILE_W = 390;
-  const wrap = document.createElement('div');
-  wrap.style.position = 'absolute';
-  wrap.style.left = '-99999px';
-  wrap.style.top = '0';
-  wrap.style.width = MOBILE_W + 'px';
-  wrap.style.background = '#ffffff';
-  wrap.style.zIndex = '-1';
-
-  const pages = Array.from(document.querySelectorAll('.page'));
-  const selected = includeCover ? pages : pages.filter(p => p.id !== 'p0');
-
-  selected.forEach((page, idx) => {
-    const clone = page.cloneNode(true);
-    clone.classList.add('active');
-    clone.style.display = 'block';
-    clone.style.width = MOBILE_W + 'px';
-    clone.style.maxWidth = MOBILE_W + 'px';
-    clone.style.minWidth = MOBILE_W + 'px';
-    clone.style.padding = '0';
-    clone.style.margin = '0 auto';
-    clone.style.background = '#ffffff';
-
-    const target = clone.querySelector('.card, .cover');
-    if (target) {
-      target.style.width = MOBILE_W + 'px';
-      target.style.maxWidth = MOBILE_W + 'px';
-      target.style.minWidth = MOBILE_W + 'px';
-      target.style.margin = '0';
-      target.style.borderRadius = '0';
-      target.style.boxShadow = 'none';
-    }
-
-    // cover stays one page
-    if (page.id === 'p0') {
-      const cover = clone.querySelector('.cover');
-      if (cover) {
-        cover.style.minHeight = '844px';
-      }
-    }
-
-    // remove artificial gaps for long export after cover
-    if (page.id !== 'p0') {
-      const first = clone.querySelector('.card, .cover');
-      if (first) first.style.marginBottom = '0';
-    }
-
-    wrap.appendChild(clone);
+async function renderNodeToCanvas(node, width, scale=2) {
+  return await html2canvas(node, {
+    scale,
+    useCORS: true,
+    logging: false,
+    backgroundColor: '#FFFFFF',
+    width,
+    windowWidth: width,
+    scrollX: 0,
+    scrollY: 0
   });
-
-  document.body.appendChild(wrap);
-  await new Promise(r => setTimeout(r, 260));
-  return wrap;
 }
 
 function collectLinks(container) {
@@ -1147,20 +1105,7 @@ function collectLinks(container) {
   }).filter(l => l.width > 0 && l.height > 0);
 }
 
-async function renderCanvas(target, width, scale=2) {
-  return await html2canvas(target, {
-    scale,
-    useCORS: true,
-    logging: false,
-    backgroundColor: '#FFFFFF',
-    width,
-    windowWidth: width,
-    scrollX: 0,
-    scrollY: 0
-  });
-}
-
-// ── Download PDF: cover = 1 page, rest = long continuous pages ──
+// ── Download PDF: cover only first page, then one continuous long page ──
 async function downloadAllPages() {
   const { jsPDF } = window.jspdf;
   const btn = document.querySelector('.dl-btn');
@@ -1172,95 +1117,115 @@ async function downloadAllPages() {
   const activePage = document.querySelector('.page.active');
   const activeBtn = document.querySelector('.nav-btn.active');
 
-  const PDF_W = 390;
-  const PDF_H = 844;
+  const MOBILE_W = 390;
+  const COVER_H = 844;
   const SCALE = 2;
 
   let coverWrap = null;
   let bodyWrap = null;
 
   try {
-    // ---------- Cover ----------
-    coverWrap = await buildExportWrap(true);
-    const coverPage = coverWrap.querySelector('#p0') || coverWrap.firstElementChild;
-    const coverTarget = coverPage ? coverPage.querySelector('.cover, .card') : null;
-    if (!coverTarget) throw new Error('Cover not found');
+    // ---------- Cover wrap ----------
+    coverWrap = document.createElement('div');
+    coverWrap.style.position = 'absolute';
+    coverWrap.style.left = '-99999px';
+    coverWrap.style.top = '0';
+    coverWrap.style.width = MOBILE_W + 'px';
+    coverWrap.style.background = '#ffffff';
 
-    const coverLinks = collectLinks(coverTarget);
-    const coverCanvas = await renderCanvas(coverTarget, PDF_W, SCALE);
+    const coverClone = document.querySelector('#p0').cloneNode(true);
+    coverClone.classList.add('active');
+    coverClone.style.display = 'block';
+    coverClone.style.width = MOBILE_W + 'px';
+    coverClone.style.maxWidth = MOBILE_W + 'px';
+    coverClone.style.minWidth = MOBILE_W + 'px';
+    coverClone.style.padding = '0';
+    coverClone.style.margin = '0 auto';
+    const coverNode = coverClone.querySelector('.cover, .card');
+    if (coverNode) {
+      coverNode.style.width = MOBILE_W + 'px';
+      coverNode.style.maxWidth = MOBILE_W + 'px';
+      coverNode.style.minWidth = MOBILE_W + 'px';
+      coverNode.style.margin = '0';
+      coverNode.style.borderRadius = '0';
+      coverNode.style.boxShadow = 'none';
+      coverNode.style.minHeight = COVER_H + 'px';
+    }
+    coverWrap.appendChild(coverClone);
+    document.body.appendChild(coverWrap);
+    await new Promise(r => setTimeout(r, 220));
+
+    const realCoverNode = coverWrap.querySelector('.cover, .card');
+    const coverLinks = collectLinks(realCoverNode);
+    const coverCanvas = await renderNodeToCanvas(realCoverNode, MOBILE_W, SCALE);
+
+    // ---------- Body wrap: all pages except cover combined with NO gaps ----------
+    bodyWrap = document.createElement('div');
+    bodyWrap.style.position = 'absolute';
+    bodyWrap.style.left = '-99999px';
+    bodyWrap.style.top = '0';
+    bodyWrap.style.width = MOBILE_W + 'px';
+    bodyWrap.style.background = '#ffffff';
+
+    Array.from(document.querySelectorAll('.page'))
+      .filter(p => p.id !== 'p0')
+      .forEach(page => {
+        const clone = page.cloneNode(true);
+        clone.classList.add('active');
+        clone.style.display = 'block';
+        clone.style.width = MOBILE_W + 'px';
+        clone.style.maxWidth = MOBILE_W + 'px';
+        clone.style.minWidth = MOBILE_W + 'px';
+        clone.style.padding = '0';
+        clone.style.margin = '0 auto';
+        clone.style.background = '#ffffff';
+
+        const node = clone.querySelector('.card, .cover');
+        if (node) {
+          node.style.width = MOBILE_W + 'px';
+          node.style.maxWidth = MOBILE_W + 'px';
+          node.style.minWidth = MOBILE_W + 'px';
+          node.style.margin = '0';
+          node.style.borderRadius = '0';
+          node.style.boxShadow = 'none';
+        }
+
+        bodyWrap.appendChild(clone);
+      });
+
+    document.body.appendChild(bodyWrap);
+    await new Promise(r => setTimeout(r, 260));
+
+    const bodyLinks = collectLinks(bodyWrap);
+    const bodyCanvas = await renderNodeToCanvas(bodyWrap, MOBILE_W, SCALE);
+
+    // Create a single PDF page tall enough for the whole body
+    const BODY_H = bodyCanvas.height / SCALE;
 
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'px',
-      format: [PDF_W, PDF_H]
+      format: [MOBILE_W, COVER_H]
     });
 
-    const coverImg = coverCanvas.toDataURL('image/jpeg', 0.98);
-    pdf.addImage(coverImg, 'JPEG', 0, 0, PDF_W, PDF_H);
-
+    // Page 1: cover
+    pdf.addImage(coverCanvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, 0, MOBILE_W, COVER_H);
     coverLinks.forEach(link => {
       if (/^https?:/i.test(link.href)) {
         pdf.link(link.left, link.top, link.width, Math.max(6, link.height), { url: link.href });
       }
     });
 
-    coverWrap.remove();
-    coverWrap = null;
+    // Page 2: one continuous long page
+    pdf.addPage([MOBILE_W, BODY_H], 'portrait');
+    pdf.addImage(bodyCanvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, 0, MOBILE_W, BODY_H);
+    bodyLinks.forEach(link => {
+      if (/^https?:/i.test(link.href)) {
+        pdf.link(link.left, link.top, link.width, Math.max(6, link.height), { url: link.href });
+      }
+    });
 
-    // ---------- Long body (without cover) ----------
-    bodyWrap = await buildExportWrap(false);
-    const bodyLinks = collectLinks(bodyWrap);
-    const bodyCanvas = await renderCanvas(bodyWrap, PDF_W, SCALE);
-
-    const pageCanvasHeight = PDF_H * SCALE;
-    const totalPages = Math.ceil(bodyCanvas.height / pageCanvasHeight);
-
-    for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
-      const sy = pageIndex * pageCanvasHeight;
-      const sh = Math.min(pageCanvasHeight, bodyCanvas.height - sy);
-
-      const sliceCanvas = document.createElement('canvas');
-      sliceCanvas.width = bodyCanvas.width;
-      sliceCanvas.height = sh;
-
-      const ctx = sliceCanvas.getContext('2d');
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-      ctx.drawImage(
-        bodyCanvas,
-        0, sy, bodyCanvas.width, sh,
-        0, 0, sliceCanvas.width, sliceCanvas.height
-      );
-
-      const renderedHeight = sh / SCALE;
-      const imgData = sliceCanvas.toDataURL('image/jpeg', 0.98);
-
-      pdf.addPage([PDF_W, PDF_H], 'portrait');
-      pdf.addImage(imgData, 'JPEG', 0, 0, PDF_W, renderedHeight);
-
-      const sliceTop = sy / SCALE;
-      const sliceBottom = sliceTop + renderedHeight;
-
-      bodyLinks.forEach(link => {
-        const linkTop = link.top;
-        const linkBottom = link.top + link.height;
-        if (linkBottom <= sliceTop || linkTop >= sliceBottom) return;
-
-        const visibleTop = Math.max(linkTop, sliceTop);
-        const visibleBottom = Math.min(linkBottom, sliceBottom);
-
-        const x = link.left;
-        const y = visibleTop - sliceTop;
-        const w = link.width;
-        const h = Math.max(6, visibleBottom - visibleTop);
-
-        if (/^https?:/i.test(link.href)) {
-          pdf.link(x, y, w, h, { url: link.href });
-        }
-      });
-    }
-
-    pdf.save('神戶2026_完整行程.pdf');
+    pdf.save('神戶2026_封面單頁_其餘長頁.pdf');
   } catch (e) {
     alert('PDF 產生失敗，請再試一次');
     console.error(e);
