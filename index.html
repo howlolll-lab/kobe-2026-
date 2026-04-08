@@ -2,196 +2,246 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>神戶旅遊手冊 2026 完整版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神戶旅遊手冊 2026</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap');
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #1a1814; color: #e8e0d0; font-family: 'Noto Sans TC', sans-serif; line-height: 1.5; }
+
+    /* 基本樣式 - 針對手機優化 */
+    body {
+      background: #1a1814;
+      color: #e8e0d0;
+      font-family: 'Noto Sans TC', sans-serif;
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%; /* 防止手機自動縮放字體 */
+    }
+
+    /* PDF 下載按鈕 */
+    .pdf-btn {
+      position: fixed; bottom: 20px; right: 20px; background: #c9a96e; color: #1a1814;
+      border: none; padding: 12px 24px; border-radius: 50px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9999;
+      font-size: 14px;
+    }
+
+    /* 分頁容器 */
+    .itinerary-container {
+      width: 100%;
+      max-width: 800px; /* 手機顯示寬度 */
+      margin: 0 auto;
+    }
+
+    .page {
+      width: 100%;
+      background: #1a1814;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 40px;
+    }
+
+    /* ---- 封面 (P1) ---- */
+    .cover {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 10px solid #252219;
+      text-align: center;
+    }
+    .cover-main { font-family: 'Noto Serif TC', serif; font-size: 60px; line-height: 1; }
+    .cover-year { font-size: 24px; color: #c9a96e; letter-spacing: 5px; margin: 10px 0; }
+
+    /* ---- 機票卡片還原 (P2) ---- */
+    .section-title { color: #c9a96e; font-size: 18px; margin: 30px 20px 15px; letter-spacing: 2px; border-left: 3px solid #c9a96e; padding-left: 10px; }
     
-    .pdf-btn { position: fixed; bottom: 30px; right: 30px; background: #c9a96e; color: #1a1814; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 600; cursor: pointer; z-index: 9999; }
-    .page { width: 210mm; min-height: 296mm; margin: 0 auto; background: #1a1814; position: relative; overflow: hidden; }
-    .page-break { page-break-after: always; }
+    .flight-card {
+      background: #252219;
+      margin: 15px;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #3a3628;
+    }
+    .flight-header { display: flex; justify-content: space-between; font-size: 12px; color: #8a7f6e; margin-bottom: 10px; }
+    .flight-main { display: flex; justify-content: space-between; align-items: center; }
+    .airport-code { font-size: 28px; font-weight: 600; color: #f0ebe0; }
+    .flight-arrow { flex: 1; text-align: center; color: #c9a96e; position: relative; margin: 0 15px; }
+    .flight-arrow::after { content: '✈'; font-size: 18px; }
+    .flight-info { margin-top: 10px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px dashed #3a3628; padding-top: 10px; }
 
-    /* ---- 封面 (P.1) ---- */
-    .cover { height: 297mm; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 15px solid #252219; }
-    .cover-kobe { font-size: 20px; letter-spacing: 12px; color: #8a7f6e; margin-bottom: 20px; }
-    .cover-main { font-family: 'Noto Serif TC', serif; font-size: 110px; color: #e8e0d0; line-height: 1; }
-    .cover-year { font-size: 42px; color: #c9a96e; letter-spacing: 5px; margin-top: 20px; }
-    .cover-date { margin-top: 50px; border-top: 1px solid #c9a96e; border-bottom: 1px solid #c9a96e; padding: 10px 30px; letter-spacing: 4px; font-size: 14px; }
-
-    /* ---- 航班與行李 (P.2) ---- */
-    .section-p2 { padding: 40px; }
-    .table-box { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #252219; border-radius: 8px; overflow: hidden; }
-    .table-box th { background: #3a3628; color: #c9a96e; padding: 12px; text-align: left; font-size: 14px; }
-    .table-box td { padding: 15px; border-bottom: 1px solid #3a3628; font-size: 13px; }
-    .flight-tag { background: #c9a96e; color: #1a1814; padding: 2px 8px; border-radius: 3px; font-weight: 600; margin-right: 8px; }
-
-    /* ---- 行程頁樣式 ---- */
-    .hero { background: #1a1814; padding: 40px 32px; border-bottom: 2px solid #c9a96e; }
-    .day-tag { display: inline-block; background: #c9a96e; color: #1a1814; padding: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
-    .light-section { background: #f0ebe0; color: #2c2a25; padding: 30px; min-height: 180mm; }
+    /* ---- 行程樣式 (Day 1-3) ---- */
+    .hero { padding: 40px 20px; border-bottom: 2px solid #c9a96e; }
+    .day-tag { display: inline-block; background: #c9a96e; color: #1a1814; padding: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+    .light-section { background: #f0ebe0; color: #2c2a25; padding: 25px 20px; min-height: 500px; }
     .timeline-item { display: flex; margin-bottom: 20px; }
-    .time { width: 60px; font-size: 12px; color: #8a7f6e; padding-top: 3px; }
-    .dot { width: 8px; height: 8px; background: #c9a96e; border-radius: 50%; margin: 8px 15px 0; }
+    .time { width: 50px; font-size: 12px; color: #8a7f6e; padding-top: 4px; flex-shrink: 0; }
+    .dot { width: 8px; height: 8px; background: #c9a96e; border-radius: 50%; margin: 9px 12px 0; flex-shrink: 0; }
     .content-box { flex: 1; }
-    .content-title { font-weight: 600; font-size: 16px; margin-bottom: 5px; }
-    .content-desc { font-size: 12px; color: #5a5348; }
+    .content-title { font-weight: 600; font-size: 15px; }
+    .content-desc { font-size: 13px; color: #5a5348; margin-top: 4px; }
 
-    /* ---- 費用清算 (最後一頁) ---- */
-    .bill-section { padding: 40px; background: #1a1814; }
-    .bill-card { background: #252219; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #c9a96e; }
-    .bill-name { font-size: 18px; color: #c9a96e; margin-bottom: 10px; font-weight: 600; }
-    .bill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; }
+    /* 咖啡廳卡片 (Day 2) */
+    .cafe-card { background: #fff; margin-top: 10px; padding: 15px; border-radius: 8px; font-size: 13px; color: #2c2a25; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-    /* 咖啡廳卡片 (Day 2 特有) */
-    .cafe-card { background: #fff; margin-bottom: 10px; padding: 12px; border-radius: 5px; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    /* ---- 費用清算 (末頁) ---- */
+    .bill-card { background: #252219; margin: 0 20px 15px; padding: 15px; border-radius: 8px; border-left: 4px solid #c9a96e; }
+    .bill-name { font-size: 16px; color: #c9a96e; font-weight: 600; margin-bottom: 5px; }
+    .bill-detail { font-size: 13px; display: flex; justify-content: space-between; color: #9a9080; }
 
-    @media print { .pdf-btn { display: none; } .page { margin: 0; } }
+    /* PDF 分頁強制指令 */
+    .html2pdf__page-break { display: block; height: 0; page-break-before: always; }
+
+    /* 針對桌機/PDF 的 A4 設定 */
+    @media print, screen and (min-width: 800px) {
+      .page { width: 210mm; min-height: 297mm; margin: 0 auto; }
+    }
   </style>
 </head>
 <body>
 
-  <button onclick="downloadPDF()" class="pdf-btn">⬇ 下載完整手冊 PDF</button>
+  <button onclick="downloadPDF()" class="pdf-btn">⬇ 下載 PDF (分頁完整版)</button>
 
-  <div id="itinerary-wrapper">
+  <div id="itinerary-wrapper" class="itinerary-container">
     
-    <div class="page page-break">
+    <div class="page">
       <div class="cover">
-        <div class="cover-kobe">K O B E</div>
+        <div style="font-size: 14px; letter-spacing: 10px; color: #8a7f6e;">KOBE JAPAN</div>
         <div class="cover-main">神 戶</div>
         <div class="cover-year">2026</div>
-        <div class="cover-date">JUN 5 — JUN 8 | TRAVEL JOURNAL</div>
+        <div style="margin-top: 40px; border: 1px solid #c9a96e; padding: 8px 20px; font-size: 12px;">JUN 5 — JUN 8</div>
       </div>
+      <div class="html2pdf__page-break"></div>
     </div>
 
-    <div class="page page-break">
-      <div class="section-p2">
-        <h2 style="color:#c9a96e; margin-bottom:20px; letter-spacing:2px;">✈️ 航班資訊 (FLIGHT)</h2>
-        <table class="table-box">
-          <tr><th>航線</th><th>日期</th><th>時間 (起飛/抵達)</th><th>航班</th></tr>
-          <tr><td>台北桃園 ➔ 神戶</td><td>05 JUN 2026</td><td>06:20 ➔ 10:00</td><td><span class="flight-tag">BR134</span>長榮</td></tr>
-          <tr><td>神戶 ➔ 台北桃園</td><td>08 JUN 2026</td><td>11:00 ➔ 12:55</td><td><span class="flight-tag">BR133</span>長榮</td></tr>
-        </table>
-
-        <h2 style="color:#c9a96e; margin-bottom:20px; letter-spacing:2px;">🧳 行李規定 (ECONOMY)</h2>
-        <div class="bill-grid" style="color:#9a9080;">
-          <div class="bill-card">
-            <div class="bill-name" style="font-size:14px;">手提行李 (7kg)</div>
-            1件 + 隨身小包<br>行動電源、貴重物品(必隨身)
-          </div>
-          <div class="bill-card">
-            <div class="bill-name" style="font-size:14px;">託運行李 (23kg)</div>
-            1件免費<br>100ml以上液體、刀具(必託運)
-          </div>
+    <div class="page">
+      <div class="section-title">FLIGHT 航班資訊</div>
+      
+      <div class="flight-card">
+        <div class="flight-header"><span>05 JUN 2026</span><span>長榮航空 BR134</span></div>
+        <div class="flight-main">
+          <div class="airport-code">TPE</div>
+          <div class="flight-arrow"></div>
+          <div class="airport-code">UKB</div>
         </div>
-        <p style="color:#c9604e; font-size:12px; margin-top:10px;">⚠️ 行動電源、打火機禁止託運。鋰電池僅限手提上機，飛機上不可使用。</p>
+        <div class="flight-info">
+          <span>06:20 出發</span><span>10:00 抵達</span><span>2h 40m</span>
+        </div>
       </div>
+
+      <div class="flight-card">
+        <div class="flight-header"><span>08 JUN 2026</span><span>長榮航空 BR133</span></div>
+        <div class="flight-main">
+          <div class="airport-code">UKB</div>
+          <div class="flight-arrow"></div>
+          <div class="airport-code">TPE</div>
+        </div>
+        <div class="flight-info">
+          <span>11:00 出發</span><span>12:55 抵達</span><span>2h 55m</span>
+        </div>
+      </div>
+
+      <div class="section-title">BAGGAGE 行李規定</div>
+      <div style="padding: 0 20px; font-size: 13px; color: #9a9080;">
+        <p>• <b>手提：</b>7kg (行動電源/鋰電池/護照 必隨身)</p>
+        <p>• <b>託運：</b>23kg (100ml以上液體/刀具 必託運)</p>
+        <p style="color:#c9604e; margin-top:10px;">⚠️ 打火機限1個隨身，禁止託運。</p>
+      </div>
+      <div class="html2pdf__page-break"></div>
     </div>
 
-    <div class="page page-break">
+    <div class="page">
       <div class="hero">
         <div class="day-tag">DAY 1</div>
-        <div class="hero-title" style="font-size:40px;">抵達・固定行程</div>
-        <div class="hero-sub">6月5日 (週五) 神戶</div>
+        <h1 style="font-size: 28px;">抵達・神戶牛</h1>
+        <p style="font-size: 14px; color: #8a7f6e;">6月5日 (週五)</p>
       </div>
       <div class="light-section">
         <div class="timeline-item">
           <div class="time">10:00</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">抵達神戶機場</div><div class="content-desc">入境 + 機場接送至飯店 (¥10,000 四人共乘)</div></div>
+          <div class="content-box"><div class="content-title">抵達神戶機場</div><div class="content-desc">機場接送專車直達飯店 (¥10,000/4人)</div></div>
         </div>
         <div class="timeline-item">
           <div class="time">12:00</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">麵包超人博物館</div><div class="content-desc">JR神戶站步行8分。1F商場免費區，預計逛3小時。</div></div>
+          <div class="content-box"><div class="content-title">麵包超人博物館</div><div class="content-desc">1F 商場免費區，預計停留 3 小時</div></div>
         </div>
         <div class="timeline-item">
           <div class="time">19:00</div><div class="dot" style="background:#c9604e;"></div>
           <div class="content-box">
             <div class="content-title">石田屋・神戶牛燒肉 <span style="color:#c9604e;">[已預約]</span></div>
-            <div class="content-desc">三宮站步行2分。請準時到達。</div>
+            <div class="content-desc">三宮站步行2分。備有中文菜單。</div>
           </div>
         </div>
       </div>
+      <div class="html2pdf__page-break"></div>
     </div>
 
-    <div class="page page-break">
+    <div class="page">
       <div class="hero">
         <div class="day-tag">DAY 2</div>
-        <div class="hero-title" style="font-size:40px;">自由活動</div>
-        <div class="hero-sub">6月6日 (週六) 三宮・元町・北野</div>
+        <h1 style="font-size: 28px;">北野異人館・自由行</h1>
+        <p style="font-size: 14px; color: #8a7f6e;">6月6日 (週六)</p>
       </div>
       <div class="light-section">
         <div class="timeline-item">
           <div class="time">10:00</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">生田神社</div><div class="content-desc">神戶最古老神社，飯店步行6分即達。</div></div>
-        </div>
-        <div class="timeline-item">
-          <div class="time">10:45</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">北野天滿神社・異人館散步</div><div class="content-desc">風見雞館、萌黃之館。</div></div>
-        </div>
-        <div class="timeline-item">
-          <div class="time">13:30</div><div class="dot" style="background:#c9604e;"></div>
-          <div class="content-box"><div class="content-title">下午選項</div>
-            <div style="display:flex; gap:10px; margin-top:5px;">
-              <div style="background:#e5dfd3; padding:5px; flex:1; font-size:10px;">A: 三宮元町逛街</div>
-              <div style="background:#e5dfd3; padding:5px; flex:1; font-size:10px;">B: 港區 Harborland</div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:20px;">
-          <p style="font-weight:600; font-size:14px; margin-bottom:10px;">☕ 推薦咖啡廳 (精選)</p>
-          <div class="cafe-card"><b>西村咖啡 北野坂店</b> - 75年老店，神戶式早餐首選。</div>
-          <div class="cafe-card"><b>Cafe FREUNDLIEB</b> - 百年教堂改建，國家級文化財。</div>
-          <div class="cafe-card"><b>星巴克 北野異人館</b> - 日本最美星巴克，百年洋房。</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="page page-break">
-      <div class="hero"><div class="day-tag">DAY 3 & 4</div><div class="hero-title" style="font-size:32px;">郊區探索與回程</div></div>
-      <div class="light-section">
-        <div class="content-title">Day 3 推薦清單</div>
-        <ul style="font-size:12px; padding-left:20px; color:#5a5348;">
-          <li>蘆屋 Daniel 可麗露 (建議早去)</li>
-          <li>須磨海濱公園 (白沙灘散策)</li>
-          <li>舞子公園・明石海峽大橋 (夕陽最美)</li>
-          <li>神戶塔夜景 (09:00-23:00)</li>
-        </ul>
-        <hr style="margin:20px 0; border:0; border-top:1px solid #ccc5b5;">
-        <div class="content-title">Day 4 回程 (6月8日)</div>
-        <div class="timeline-item">
-          <div class="time">08:00</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">飯店退房</div><div class="content-desc">搭 Port Liner 至機場 (約18分)</div></div>
+          <div class="content-box"><div class="content-title">生田神社</div><div class="content-desc">飯店步行 6 分即達，求良緣景點。</div></div>
         </div>
         <div class="timeline-item">
           <div class="time">11:00</div><div class="dot"></div>
-          <div class="content-box"><div class="content-title">BR133 起飛</div><div class="content-desc">12:55 抵達桃園。回家囉！</div></div>
+          <div class="content-box"><div class="content-title">北野異人館街</div><div class="content-desc">風見雞館、萌黃之館。</div></div>
         </div>
+        
+        <p style="margin: 20px 0 10px; font-weight: 600;">☕ 精選咖啡廳行程</p>
+        <div class="cafe-card"><b>星巴克 北野異人館</b><br>百年洋房改建，保留原始歐風裝潢。</div>
+        <div class="cafe-card"><b>Cafe FREUNDLIEB</b><br>哥德式教堂改建，必吃手工餅乾。</div>
       </div>
+      <div class="html2pdf__page-break"></div>
     </div>
 
     <div class="page">
-      <div class="bill-section">
-        <h2 style="color:#c9a96e; margin-bottom:20px; letter-spacing:3px;">💰 費用分攤 (Settlement)</h2>
-        
-        <div class="bill-card">
-          <div class="bill-name">姊</div>
-          <div class="bill-grid"><div>飯店費用：NT$4,487</div></div>
+      <div class="hero">
+        <div class="day-tag">DAY 3 & 4</div>
+        <h1 style="font-size: 28px;">明石大橋・回程</h1>
+      </div>
+      <div class="light-section">
+        <p style="font-weight: 600; margin-bottom: 10px;">Day 3 推薦：</p>
+        <div class="timeline-item">
+          <div class="time">全天</div><div class="dot"></div>
+          <div class="content-box"><div class="content-title">舞子公園・明石海峽大橋</div><div class="content-desc">海上步道，夕陽時分最美。</div></div>
         </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+        <p style="font-weight: 600; margin-bottom: 10px;">Day 4 回程：</p>
+        <div class="timeline-item">
+          <div class="time">11:00</div><div class="dot"></div>
+          <div class="content-box"><div class="content-title">BR133 起飛</div><div class="content-desc">12:55 抵達桃園。結束旅程！</div></div>
+        </div>
+      </div>
+      <div class="html2pdf__page-break"></div>
+    </div>
 
-        <div class="bill-card">
-          <div class="bill-name">Ruu</div>
-          <div class="bill-grid"><div>預定費：NT$89</div><div>機場接送：¥2,500</div></div>
-        </div>
+    <div class="page">
+      <div class="section-title">SETTLEMENT 費用分攤</div>
+      
+      <div class="bill-card">
+        <div class="bill-name">姊</div>
+        <div class="bill-detail"><span>飯店總費用</span><span>NT$ 4,487</span></div>
+      </div>
 
-        <div class="bill-card">
-          <div class="bill-name">媽 / 妹 / Ru</div>
-          <div class="bill-grid"><div>飯店(每人)：NT$4,487</div><div>雜支(每人)：NT$89</div><div>現場(每人)：¥2,500</div></div>
-        </div>
+      <div class="bill-card">
+        <div class="bill-name">Ruu</div>
+        <div class="bill-detail"><span>預定費 + 接送</span><span>NT$ 89 + ¥2,500</span></div>
+      </div>
 
-        <div style="text-align: center; margin-top: 100px; color: #4a453a; letter-spacing: 5px; font-size: 11px;">
-          神戶 2026 · JUN 5 - JUN 8 · THE END
-        </div>
+      <div class="bill-card">
+        <div class="bill-name">媽 / 妹 / Ru (每人)</div>
+        <div class="bill-detail"><span>住宿+雜支+現場費</span><span>NT$ 4,576 + ¥2,500</span></div>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; color: #4a453a; font-size: 11px; letter-spacing: 3px;">
+        THANK YOU FOR TRAVELING WITH US
       </div>
     </div>
 
@@ -200,13 +250,22 @@
   <script>
     function downloadPDF() {
       const element = document.getElementById('itinerary-wrapper');
+      
+      // 設定下載參數
       const opt = {
-        margin: 0,
-        filename: 'Kobe_Full_Guide_2026.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin:       0,
+        filename:     'Kobe_2026_Full_Guide.pdf',
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true,
+          windowWidth: 800 // 鎖定轉換時的寬度，確保 PDF 版面固定
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: 'css', before: '.html2pdf__page-break' } // 依據 CSS 標記分頁
       };
+
+      // 執行下載
       html2pdf().set(opt).from(element).save();
     }
   </script>
