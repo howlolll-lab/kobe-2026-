@@ -512,6 +512,17 @@ body.pdf-export .card{
   margin-bottom:0;
 }
 
+
+/* ── Fullscreen cost page ── */
+#p6{
+  max-width:100% !important;
+  padding:0 !important;
+}
+#p6 .card{
+  border-radius:0;
+  margin-bottom:0;
+}
+
 </style>
 </head>
 <body>
@@ -1044,6 +1055,7 @@ body.pdf-export .card{
 
 
 
+
 <script>
 // ── Page switching ──
 function showPage(id, btn) {
@@ -1055,7 +1067,7 @@ function showPage(id, btn) {
   window.scrollTo(0,0);
 }
 
-// ── Download full PDF directly (mobile-size, auto split, with map links) ──
+// ── Download one long PDF directly (mobile-width, no section cuts, with links) ──
 async function downloadAllPages() {
   const { jsPDF } = window.jspdf;
   const btn = document.querySelector('.dl-btn');
@@ -1064,124 +1076,98 @@ async function downloadAllPages() {
   btn.textContent = '...';
   btn.disabled = true;
 
-  const pages = Array.from(document.querySelectorAll('.page'));
   const activePage = document.querySelector('.page.active');
   const activeBtn = document.querySelector('.nav-btn.active');
+  const SCALE = 2;
+  const PDF_W = 390;
 
-  const PDF_W = 390;   // mobile width
-  const PDF_H = 844;   // mobile height
-  const SCALE = 2;     // html2canvas scale for sharper export
+  let exportWrap = null;
 
   try {
-    document.body.classList.add('pdf-export');
+    exportWrap = document.createElement('div');
+    exportWrap.id = 'pdf-export-wrap';
+    exportWrap.style.position = 'absolute';
+    exportWrap.style.left = '-99999px';
+    exportWrap.style.top = '0';
+    exportWrap.style.width = PDF_W + 'px';
+    exportWrap.style.background = '#ffffff';
+    exportWrap.style.zIndex = '-1';
 
+    const pages = Array.from(document.querySelectorAll('.page'));
+
+    pages.forEach(page => {
+      const clone = page.cloneNode(true);
+      clone.classList.add('active');
+      clone.style.display = 'block';
+      clone.style.width = PDF_W + 'px';
+      clone.style.maxWidth = PDF_W + 'px';
+      clone.style.minWidth = PDF_W + 'px';
+      clone.style.padding = '0';
+      clone.style.margin = '0 auto';
+
+      const firstCard = clone.querySelector('.card, .cover');
+      if (firstCard) {
+        firstCard.style.width = PDF_W + 'px';
+        firstCard.style.maxWidth = PDF_W + 'px';
+        firstCard.style.minWidth = PDF_W + 'px';
+        firstCard.style.margin = '0';
+        firstCard.style.borderRadius = '0';
+        firstCard.style.boxShadow = 'none';
+      }
+      exportWrap.appendChild(clone);
+    });
+
+    document.body.appendChild(exportWrap);
+    await new Promise(r => setTimeout(r, 220));
+
+    const wrapRect = exportWrap.getBoundingClientRect();
+    const linkElements = Array.from(exportWrap.querySelectorAll('a[href]')).map(a => {
+      const r = a.getBoundingClientRect();
+      return {
+        href: a.href,
+        left: r.left - wrapRect.left,
+        top: r.top - wrapRect.top,
+        width: r.width,
+        height: r.height
+      };
+    }).filter(l => l.width > 0 && l.height > 0);
+
+    const canvas = await html2canvas(exportWrap, {
+      scale: SCALE,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#FFFFFF',
+      width: PDF_W,
+      windowWidth: PDF_W,
+      scrollX: 0,
+      scrollY: 0
+    });
+
+    const PDF_H = canvas.height / SCALE;
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'px',
       format: [PDF_W, PDF_H]
     });
 
-    let isFirstPdfPage = true;
+    const imgData = canvas.toDataURL('image/jpeg', 0.96);
+    pdf.addImage(imgData, 'JPEG', 0, 0, PDF_W, PDF_H);
 
-    for (const page of pages) {
-      document.querySelectorAll('.page').forEach(p => {
-        p.classList.remove('active');
-        p.classList.remove('exporting');
-      });
-      page.classList.add('exporting');
-
-      await new Promise(r => setTimeout(r, 180));
-
-      const target = page.querySelector('.card, .cover');
-      if (!target) continue;
-
-      const targetRect = target.getBoundingClientRect();
-      const linkElements = Array.from(target.querySelectorAll('a[href]')).map(a => {
-        const r = a.getBoundingClientRect();
-        return {
-          href: a.href,
-          left: r.left - targetRect.left,
-          top: r.top - targetRect.top,
-          width: r.width,
-          height: r.height
-        };
-      }).filter(l => l.width > 0 && l.height > 0);
-
-      const canvas = await html2canvas(target, {
-        scale: SCALE,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#FFFFFF',
-        width: PDF_W,
-        windowWidth: PDF_W,
-        scrollX: 0,
-        scrollY: 0
-      });
-
-      const fullCanvas = canvas;
-      const pageCanvasHeightPx = Math.round(PDF_H * SCALE);
-      const totalSlices = Math.max(1, Math.ceil(fullCanvas.height / pageCanvasHeightPx));
-
-      for (let sliceIndex = 0; sliceIndex < totalSlices; sliceIndex++) {
-        const sy = sliceIndex * pageCanvasHeightPx;
-        const sh = Math.min(pageCanvasHeightPx, fullCanvas.height - sy);
-
-        const sliceCanvas = document.createElement('canvas');
-        sliceCanvas.width = fullCanvas.width;
-        sliceCanvas.height = sh;
-
-        const ctx = sliceCanvas.getContext('2d');
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-        ctx.drawImage(fullCanvas, 0, sy, fullCanvas.width, sh, 0, 0, fullCanvas.width, sh);
-
-        const imgData = sliceCanvas.toDataURL('image/jpeg', 0.96);
-
-        if (!isFirstPdfPage) {
-          pdf.addPage([PDF_W, PDF_H], 'portrait');
-        }
-        isFirstPdfPage = false;
-
-        const renderedHeight = sh / SCALE; // convert canvas px back to PDF px
-        pdf.addImage(imgData, 'JPEG', 0, 0, PDF_W, renderedHeight);
-
-        // Add clickable link annotations for this slice
-        const sliceTop = sy / SCALE;
-        const sliceBottom = sliceTop + renderedHeight;
-
-        linkElements.forEach(link => {
-          const linkTop = link.top;
-          const linkBottom = link.top + link.height;
-
-          // Skip if the link does not intersect this slice
-          if (linkBottom <= sliceTop || linkTop >= sliceBottom) return;
-
-          const visibleTop = Math.max(linkTop, sliceTop);
-          const visibleBottom = Math.min(linkBottom, sliceBottom);
-
-          const x = link.left;
-          const y = visibleTop - sliceTop;
-          const w = link.width;
-          const h = Math.max(4, visibleBottom - visibleTop);
-
-          // Only annotate map links / web links
-          if (/^https?:/i.test(link.href)) {
-            pdf.link(x, y, w, h, { url: link.href });
-          }
-        });
+    // clickable links
+    linkElements.forEach(link => {
+      if (/^https?:/i.test(link.href)) {
+        pdf.link(link.left, link.top, link.width, Math.max(4, link.height), { url: link.href });
       }
-    }
+    });
 
-    pdf.save('神戶2026_完整行程.pdf');
+    pdf.save('神戶2026_長頁行程.pdf');
   } catch (e) {
     alert('PDF 產生失敗，請再試一次');
     console.error(e);
   } finally {
-    document.body.classList.remove('pdf-export');
-    document.querySelectorAll('.page').forEach(p => {
-      p.classList.remove('exporting');
-      p.classList.remove('active');
-    });
+    if (exportWrap && exportWrap.parentNode) exportWrap.parentNode.removeChild(exportWrap);
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     if (activePage) activePage.classList.add('active');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     if (activeBtn) activeBtn.classList.add('active');
