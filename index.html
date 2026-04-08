@@ -2,583 +2,206 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>神戶自由行行程 DAY 1-3</title>
+  <title>神戶旅遊手冊 2026</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body, .root {
-      background: #1a1814;
-      color: #e8e0d0;
-      font-family: 'Noto Sans TC', sans-serif;
-      font-weight: 300;
-      line-height: 1.6;
-    }
+    body { background: #1a1814; color: #e8e0d0; font-family: 'Noto Sans TC', sans-serif; }
 
     /* PDF 下載按鈕 */
     .pdf-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #c9a96e;
-      color: #1a1814;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: all 0.2s;
-    }
-    .pdf-btn:hover {
-      background: #dfc188;
-      transform: translateY(-2px);
+      position: fixed; bottom: 30px; right: 30px; background: #c9a96e; color: #1a1814;
+      border: none; padding: 15px 30px; border-radius: 50px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9999;
     }
 
-    /* ---- HERO ---- */
-    .hero {
-      background: #1a1814;
-      padding: 48px 32px 36px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #c9a96e, transparent);
-    }
-    .day-tag {
-      display: inline-block;
-      background: #c9a96e;
-      color: #1a1814;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 3px;
-      padding: 4px 14px;
-      margin-bottom: 18px;
-    }
-    .hero-title {
-      font-family: 'Noto Serif TC', serif;
-      font-size: 42px;
-      font-weight: 600;
-      color: #f0ebe0;
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
-    .hero-sub {
-      font-size: 14px;
-      color: #8a7f6e;
-      letter-spacing: 2px;
-    }
+    .page { width: 210mm; min-height: 297mm; margin: 0 auto; background: #1a1814; position: relative; overflow: hidden; }
+    .page-break { page-break-after: always; }
 
-    /* ---- LIGHT SECTION (行程) ---- */
-    .light-section {
-      background: #f0ebe0;
-      padding: 40px 32px;
-      color: #2c2a25;
-    }
+    /* ---- 封面頁 (Cover) ---- */
+    .cover-content { height: 297mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 20px solid #252219; }
+    .cover-year { font-size: 20px; letter-spacing: 8px; color: #c9a96e; margin-bottom: 20px; }
+    .cover-title { font-family: 'Noto Serif TC', serif; font-size: 80px; font-weight: 600; line-height: 1; margin-bottom: 10px; }
+    .cover-subtitle { font-size: 24px; letter-spacing: 15px; margin-bottom: 60px; color: #8a7f6e; }
+    .cover-date { font-size: 16px; border-top: 1px solid #c9a96e; border-bottom: 1px solid #c9a96e; padding: 10px 40px; letter-spacing: 3px; }
 
-    /* ---- TIMELINE ---- */
+    /* ---- 行程頁樣式 ---- */
+    .hero { padding: 60px 50px 40px; position: relative; }
+    .day-tag { display: inline-block; background: #c9a96e; color: #1a1814; font-size: 12px; padding: 4px 15px; margin-bottom: 20px; letter-spacing: 3px; }
+    .hero-title { font-family: 'Noto Serif TC', serif; font-size: 48px; margin-bottom: 10px; }
+    .hero-sub { color: #8a7f6e; letter-spacing: 2px; font-size: 14px; }
+    
+    .light-section { background: #f0ebe0; color: #2c2a25; padding: 40px 50px; min-height: 200mm; }
     .timeline { position: relative; }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 58px;
-      top: 0; bottom: 0;
-      width: 1px;
-      background: #ccc5b5;
-    }
-
-    .tl-item {
-      display: flex;
-      gap: 0;
-      margin-bottom: 28px;
-      position: relative;
-      page-break-inside: avoid; /* 避免列印時被切斷 */
-    }
-
-    .tl-time {
-      width: 58px;
-      flex-shrink: 0;
-      font-size: 12px;
-      color: #8a7f6e;
-      letter-spacing: 0.5px;
-      padding-top: 2px;
-      text-align: right;
-      padding-right: 16px;
-    }
-
-    .tl-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #c9a96e;
-      flex-shrink: 0;
-      margin-top: 5px;
-      position: relative;
-      z-index: 1;
-    }
+    .timeline::before { content: ''; position: absolute; left: 70px; top: 0; bottom: 0; width: 1px; background: #ccc5b5; }
+    
+    .tl-item { display: flex; margin-bottom: 30px; position: relative; }
+    .tl-time { width: 70px; flex-shrink: 0; font-size: 14px; color: #8a7f6e; padding-top: 2px; }
+    .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: #c9a96e; margin: 6px 20px 0; z-index: 1; }
     .tl-dot.red { background: #c9604e; }
-    .tl-dot.gray { background: #9a9080; }
+    .tl-content { flex: 1; }
+    .tl-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+    .tl-desc { font-size: 14px; color: #5a5348; }
 
-    .tl-content {
-      flex: 1;
-      padding-left: 18px;
-    }
+    .option-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+    .option-block { background: #e5dfd3; padding: 15px; border-radius: 5px; }
+    .option-label { font-size: 10px; color: #8a7f6e; font-weight: 600; margin-bottom: 5px; }
+    .option-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+    
+    /* ---- 末頁 (Flight & Rules) ---- */
+    .end-page { padding: 60px 50px; }
+    .info-section { background: #252219; padding: 30px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #c9a96e; }
+    .info-title { font-size: 18px; color: #c9a96e; margin-bottom: 20px; font-weight: 600; letter-spacing: 2px; border-bottom: 1px solid #3a3628; padding-bottom: 10px; }
+    .flight-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .flight-code { font-size: 24px; font-weight: 600; }
+    .flight-time { font-size: 16px; color: #f0ebe0; }
+    .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px; color: #9a9080; }
+    .rule-item b { color: #e8e0d0; display: block; margin-bottom: 5px; }
 
-    .tl-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #2c2a25;
-      margin-bottom: 4px;
-    }
-    .tl-desc {
-      font-size: 13px;
-      color: #5a5348;
-      line-height: 1.6;
-    }
-    .tl-transport {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: #e5dfd3;
-      border-radius: 3px;
-      padding: 4px 10px;
-      font-size: 11px;
-      color: #5a5348;
-      margin-top: 6px;
-    }
-    .tl-transport span { color: #c9a96e; }
-
-    .reserved-badge {
-      display: inline-block;
-      background: #c9604e;
-      color: #fff;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 2px;
-      margin-left: 8px;
-      vertical-align: middle;
-      font-weight: normal;
-    }
-
-    /* Option blocks */
-    .option-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .option-row.three-cols {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-    .option-block {
-      background: #e5dfd3;
-      border-radius: 4px;
-      padding: 12px 14px;
-    }
-    .option-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: #8a7f6e;
-      margin-bottom: 6px;
-    }
-    .option-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #2c2a25;
-      margin-bottom: 4px;
-    }
-    .option-desc { font-size: 12px; color: #6b6358; }
-
-    /* Note block */
-    .note-block {
-      background: #1a1814;
-      padding: 32px;
-      margin-top: 0;
-      border-bottom: 1px solid #2e2a22;
-    }
-    .note-title {
-      font-size: 12px;
-      letter-spacing: 3px;
-      color: #c9a96e;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-    .note-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .note-card {
-      background: #252219;
-      border: 1px solid #3a3628;
-      border-radius: 4px;
-      padding: 14px 16px;
-    }
-    .note-card-title {
-      font-size: 13px;
-      font-weight: 500;
-      color: #e8e0d0;
-      margin-bottom: 6px;
-    }
-    .note-card-desc {
-      font-size: 12px;
-      color: #9a9080;
-      line-height: 1.6;
-    }
-    .note-card-desc strong { color: #c9a96e; font-weight: 400; }
-
-    /* footer stripe */
-    .footer-stripe {
-      background: #1a1814;
-      padding: 24px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-stripe span {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: #6b6358;
-    }
-    .footer-stripe .gold { color: #c9a96e; }
-
-    /* 列印最佳化 */
     @media print {
-      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .pdf-btn { display: none !important; }
-      .hero { padding: 30px 32px 20px; page-break-after: avoid; }
-      .light-section { padding: 20px 32px; }
-      .tl-item { page-break-inside: avoid; margin-bottom: 20px; }
-      .option-block, .note-card { page-break-inside: avoid; }
-      /* 強制分頁讓每天的行程更獨立，視需求可拿掉 */
-      .day-divider { page-break-before: always; }
+      .pdf-btn { display: none; }
+      .page { margin: 0; border: none; }
     }
   </style>
 </head>
 <body>
 
-  <button onclick="downloadPDF()" class="pdf-btn">⬇ 下載 PDF</button>
+  <button onclick="downloadPDF()" class="pdf-btn">⬇ 下載完整手冊 PDF</button>
 
-  <div id="itinerary-wrapper" class="root">
-
-    <div class="hero">
-      <div class="day-tag">DAY 1</div>
-      <div class="hero-title">抵達與神戶牛之夜</div>
-      <div class="hero-sub">6月5日（週五）· 神戶</div>
+  <div id="itinerary-wrapper">
+    
+    <div class="page page-break">
+      <div class="cover-content">
+        <div class="cover-year">2026</div>
+        <div class="cover-title">KOBE</div>
+        <div class="cover-subtitle">神 戶</div>
+        <div class="cover-date">JUNE 05 — JUNE 08</div>
+        <p style="margin-top: 40px; color: #6b6358; letter-spacing: 5px;">TRAVEL JOURNAL</p>
+      </div>
     </div>
 
-    <div class="light-section">
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-time">10:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">抵達神戶機場 (UKB)</div>
-            <div class="tl-desc">辦理入境手續，搭乘機場接送專車直達飯店（四人共乘費用 ¥10,000）。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">11:00</div>
-          <div class="tl-dot gray"></div>
-          <div class="tl-content">
-            <div class="tl-title">飯店寄放行李</div>
-            <div class="tl-desc">抵達艾美麗飯店（Hotel Monte Hermana Kobe Amalie），先寄放行李（預計 15:00 後可 Check-in）。</div>
-            <div class="tl-transport"><span>📍</span> 中央區中山手通2-2-28</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">11:30</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">午餐時間</div>
-            <div class="tl-desc">於飯店周邊或麵包超人博物館附近隨意覓食，輕鬆解決。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">12:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">麵包超人博物館</div>
-            <div class="tl-desc">逛一樓免費購物商場（營業時間 10:00-19:00），預計停留約 3 小時。</div>
-            <div class="tl-transport"><span>🚶</span> JR 神戶站步行 8 分</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">15:00</div>
-          <div class="tl-dot gray"></div>
-          <div class="tl-content">
-            <div class="tl-title">飯店入住與休息</div>
-            <div class="tl-desc">返回飯店辦理 Check-in，自由活動休息。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">17:00</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">傍晚行程（選一）</div>
-            <div class="option-row">
-              <div class="option-block">
-                <div class="option-label">OPTION A · 有體力</div>
-                <div class="option-title">Concerto 協奏曲號 🚢</div>
-                <div class="option-desc">搭乘神戶觀光船享受 1 小時的夕陽郵輪航程，欣賞海上日落。</div>
-              </div>
-              <div class="option-block">
-                <div class="option-label">OPTION B · 累了</div>
-                <div class="option-title">周邊漫步 🚶</div>
-                <div class="option-desc">在飯店周邊隨意逛逛或直接在房間休息養神。</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">19:00</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">石田屋・神戶牛燒肉 <span class="reserved-badge">已預約</span></div>
-            <div class="tl-desc">務必準時抵達！備有中文菜單（預算約 ¥7,000-12,000/人）。</div>
-            <div class="tl-transport"><span>🚶</span> 北長狹通 1-20-9 2F（三宮站步行 2 分）</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">20:30</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">晚餐後自由活動</div>
-            <div class="tl-desc">依據當下體力決定要散步去港邊看夜景，或是直接回飯店休息。</div>
-          </div>
+    <div class="page page-break">
+      <div class="hero">
+        <div class="day-tag">DAY 1</div>
+        <div class="hero-title">抵達與神戶牛之夜</div>
+        <div class="hero-sub">6月5日（週五）· 長榮航空 BR134 (06:20 - 10:00)</div>
+      </div>
+      <div class="light-section">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-time">10:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">抵達神戶機場 (UKB)</div><div class="tl-desc">專車接送至飯店（費用約 ¥10,000 / 4人）。</div></div></div>
+          <div class="tl-item"><div class="tl-time">12:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">麵包超人博物館</div><div class="tl-desc">逛 1F 購物商場（免門票區），停留約 3 小時。</div></div></div>
+          <div class="tl-item"><div class="tl-time">17:00</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">傍晚行程（選一）</div><div class="option-row">
+            <div class="option-block"><div class="option-label">OPTION A</div><div class="option-title">協奏曲號郵輪 🚢</div><div class="option-desc">海上夕陽航程</div></div>
+            <div class="option-block"><div class="option-label">OPTION B</div><div class="option-title">飯店休息 🛌</div><div class="option-desc">艾美麗飯店 Check-in</div></div>
+          </div></div></div>
+          <div class="tl-item"><div class="tl-time">19:00</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">石田屋・神戶牛燒肉 (已預約)</div><div class="tl-desc">三宮站步行 2 分，體驗在地神戶牛極致美味。</div></div></div>
         </div>
       </div>
     </div>
 
-    <div class="hero day-divider">
-      <div class="day-tag">DAY 2</div>
-      <div class="hero-title">異國風情與自由探索</div>
-      <div class="hero-sub">6月6日（週六）· 神戶</div>
-    </div>
-
-    <div class="light-section">
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-time">09:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">起床 · 當地早餐</div>
-            <div class="tl-desc">飯店附近三宮商圈隨意覓食，或前往西村咖啡享用神戶式早餐</div>
-            <div class="tl-transport"><span>🚶</span> 飯店步行 5 分即可到達三宮</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">10:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">生田神社</div>
-            <div class="tl-desc">神戶最古老神社，求良緣能量景點，紅色鳥居在市中心格外醒目（24H開放/免費）</div>
-            <div class="tl-transport"><span>🚶</span> 飯店步行約 6 分即達</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">10:45</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">北野天滿神社 · 異人館散步</div>
-            <div class="tl-desc">沿北野坂往上走，順遊北野天滿神社，再漫步異人館街。推薦參觀：風見雞館、萌黃之館。<br>💡 <b>雨天備案：</b>可改去兵庫縣立美術館或竹中大工道具館。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">13:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">北野一帶午餐</div>
-            <div class="tl-desc">異人館周邊餐廳選擇豐富，或下山回三宮覓食。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">13:30</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">下午行程（選一）</div>
-            <div class="option-row three-cols">
-              <div class="option-block">
-                <div class="option-label">OPTION A · 逛街</div>
-                <div class="option-title">三宮 / 元町 🛍️</div>
-                <div class="option-desc">商店街、南京町中華街、百貨、藥妝。飯店步行 5-7 分即達。</div>
-              </div>
-              <div class="option-block">
-                <div class="option-label">OPTION B · 港區</div>
-                <div class="option-title">神戶港區 🎡</div>
-                <div class="option-desc">馬賽克廣場、Umie 商城、摩天輪，黃昏時刻最美。</div>
-              </div>
-              <div class="option-block">
-                <div class="option-label">OPTION C · 補眠</div>
-                <div class="option-title">回飯店休息 🛏️</div>
-                <div class="option-desc">累了就睡！養精蓄銳迎接晚餐跟宵夜。</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">20:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">晚餐（彈性安排）</div>
-            <div class="tl-desc">可簡單吃，或補上前一天沒吃到的料理。三宮站周邊選擇超多。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">22:00</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">宵夜 · 明石燒</div>
-            <div class="tl-desc">飯店附近品嚐明石燒，有別於章魚燒的柔嫩口感（營業至 02:00）。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">00:00</div>
-          <div class="tl-dot gray"></div>
-          <div class="tl-content">
-            <div class="tl-title">當地唐吉訶德</div>
-            <div class="tl-desc">24 小時營業，藥妝、零食、伴手禮一站搞定。步行 5 分鐘。</div>
-          </div>
+    <div class="page page-break">
+      <div class="hero">
+        <div class="day-tag">DAY 2</div>
+        <div class="hero-title">異國風情與自由探索</div>
+        <div class="hero-sub">6月6日（週六）· 漫步北野異人館</div>
+      </div>
+      <div class="light-section">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-time">10:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">生田神社</div><div class="tl-desc">飯店對面，神戶最古老神社，祈求良緣與開運。</div></div></div>
+          <div class="tl-item"><div class="tl-time">11:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">北野天滿神社 / 異人館</div><div class="tl-desc">充滿歐風的街道，必看風見雞館。</div></div></div>
+          <div class="tl-item"><div class="tl-time">13:30</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">下午自由活動（選一）</div><div class="option-row">
+            <div class="option-block"><div class="option-label">SHOPPING</div><div class="option-title">三宮 / 元町 🛍️</div><div class="option-desc">藥妝、百貨、中華街</div></div>
+            <div class="option-block"><div class="option-label">LEISURE</div><div class="option-title">神戶港區 🎡</div><div class="option-desc">馬賽克廣場、美利堅公園</div></div>
+          </div></div></div>
+          <div class="tl-item"><div class="tl-time">22:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">宵夜：明石燒</div><div class="tl-desc">品嚐神戶特有的高湯章魚燒，口感軟嫩。</div></div></div>
         </div>
       </div>
     </div>
 
-    <div class="hero day-divider">
-      <div class="day-tag">DAY 3</div>
-      <div class="hero-title">郊區漫遊與港灣巡禮</div>
-      <div class="hero-sub">6月7日（週日）· 神戶</div>
-    </div>
-
-    <div class="light-section">
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-time">09:00</div>
-          <div class="tl-dot gray"></div>
-          <div class="tl-content">
-            <div class="tl-title">彈性起床與早餐</div>
-            <div class="tl-desc">全日自由活動，大家可各自前往想去的景點，迷路善用 Google Maps，出發點同為艾美麗飯店。</div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">10:00</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">上午行程推薦（選一）</div>
-            <div class="option-row">
-              <div class="option-block">
-                <div class="option-label">OPTION A · 甜點控</div>
-                <div class="option-title">花式可麗露 Daniel 🍰</div>
-                <div class="option-desc">多種口味限量販售，建議早去（週一、二公休）。<br><span style="color:#c9a96e; font-size:11px;">🚃 阪急神戶線至「蘆屋川」站步行 5 分</span></div>
-              </div>
-              <div class="option-block">
-                <div class="option-label">OPTION B · 海景</div>
-                <div class="option-title">須磨海濱公園 🏖️</div>
-                <div class="option-desc">白沙灘，夏季開放游泳，免費入場。<br><span style="color:#c9a96e; font-size:11px;">🚃 JR 神戶線至「須磨」站步行 5 分</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">14:00</div>
-          <div class="tl-dot red"></div>
-          <div class="tl-content">
-            <div class="tl-title">下午行程推薦（選一）</div>
-            <div class="option-row">
-              <div class="option-block">
-                <div class="option-label">OPTION A · 絕美大橋</div>
-                <div class="option-title">舞子公園・明石海峽 🌉</div>
-                <div class="option-desc">公園免費，推薦花 ¥250 走海上步道，夕陽時段最美。<br><span style="color:#c9a96e; font-size:11px;">🚃 JR 神戶線至「舞子」站步行 5 分</span></div>
-              </div>
-              <div class="option-block">
-                <div class="option-label">OPTION B · 逛街補貨</div>
-                <div class="option-title">三宮・元町商圈血拼 🛍️</div>
-                <div class="option-desc">中心街、元町商店街、南京町中華街一次逛足。<br><span style="color:#c9a96e; font-size:11px;">🚶 飯店步行 5-7 分即到</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">19:00</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <div class="tl-title">傍晚匯合：神戶塔與美利堅公園</div>
-            <div class="tl-desc">匯合欣賞港邊夜景。美利堅公園 24H 免費開放；神戶塔營業至 23:00（門票 ¥1,000）。</div>
-            <div class="tl-transport"><span>🚌</span> 飯店步行 20 分，或搭乘 Port Loop 巴士至美利堅公園站</div>
-          </div>
+    <div class="page page-break">
+      <div class="hero">
+        <div class="day-tag">DAY 3</div>
+        <div class="hero-title">郊區漫遊與港灣巡禮</div>
+        <div class="hero-sub">6月7日（週日）· 深度探索神戶郊區</div>
+      </div>
+      <div class="light-section">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-time">10:00</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">上午行程推薦（選一）</div><div class="option-row">
+            <div class="option-block"><div class="option-label">SWEETS</div><div class="option-title">Daniel 可麗露 🍰</div><div class="option-desc">蘆屋川站名店，必買伴手禮。</div></div>
+            <div class="option-block"><div class="option-label">BEACH</div><div class="option-title">須磨海濱公園 🏖️</div><div class="option-desc">神戶最近的白沙灘散策。</div></div>
+          </div></div></div>
+          <div class="tl-item"><div class="tl-time">14:00</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">下午行程推薦（選一）</div><div class="option-row">
+            <div class="option-block"><div class="option-label">BRIDGE</div><div class="option-title">明石海峽大橋 🌉</div><div class="option-desc">舞子公園海上步道。</div></div>
+            <div class="option-block"><div class="option-label">MALL</div><div class="option-title">三宮商圈血拼 🛍️</div><div class="option-desc">最後藥妝補貨衝刺。</div></div>
+          </div></div></div>
+          <div class="tl-item"><div class="tl-time">19:00</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-title">匯合：神戶塔夜景</div><div class="tl-desc">神戶塔 (營業至 23:00) 俯瞰整座港灣。</div></div></div>
         </div>
       </div>
     </div>
 
-    <div class="note-block">
-      <div class="note-title">📋 港區營業時間備忘錄</div>
-      <div class="note-grid">
-        <div class="note-card">
-          <div class="note-card-title">神戶港 / 美利堅公園</div>
-          <div class="note-card-desc"><strong>24小時開放</strong><br>隨時可散步、看夜景，免費入場</div>
+    <div class="page">
+      <div class="end-page">
+        <div class="info-section">
+          <div class="info-title">✈️ 回程航班資訊</div>
+          <div class="flight-box">
+            <div>
+              <div class="flight-code">BR133</div>
+              <div style="font-size:12px; color:#8a7f6e;">長榮航空 EVA Air</div>
+            </div>
+            <div class="flight-time">
+              08 JUN (一) <b>11:00</b> UKB → <b>12:55</b> TPE
+            </div>
+          </div>
         </div>
-        <div class="note-card">
-          <div class="note-card-title">Harborland / Umie</div>
-          <div class="note-card-desc">約 <strong>10:00–20:00</strong><br>依各店鋪略有差異</div>
+
+        <div class="info-section">
+          <div class="info-title">🧳 託運與手提行李規定</div>
+          <div class="rule-grid">
+            <div class="rule-item">
+              <b>手提行李 (7kg)</b>
+              • 限 1 件 + 隨身小包<br>
+              • 3C產品、行動電源(必續手提)<br>
+              • 護照、錢包、貴重藥品
+            </div>
+            <div class="rule-item">
+              <b>託運行李 (23kg)</b>
+              • 限 1 件免費<br>
+              • 超過 100ml 液體、乳液<br>
+              • 指甲剪、剪刀、美工刀
+            </div>
+          </div>
+          <div style="margin-top:20px; color:#c9604e; font-size:12px;">
+            ⚠️ 禁止託運：行動電源、打火機(限一個隨身)、鋰電池。
+          </div>
         </div>
-        <div class="note-card">
-          <div class="note-card-title">馬賽克廣場 Mosaic</div>
-          <div class="note-card-desc">商店 <strong>10:00–20:00</strong><br>餐廳 <strong>11:00–22:00</strong>（部分至23:00）</div>
+
+        <div class="info-section" style="border-left-color: #8a7f6e;">
+          <div class="info-title">🏨 住宿資訊</div>
+          <p style="font-size:14px;"><b>Hotel Monte Hermana Kobe Amalie</b><br>
+          地址：中央區中山手通2-2-28 (三宮站步行 6 分)<br>
+          電話：078-393-7111</p>
         </div>
-        <div class="note-card">
-          <div class="note-card-title">神戶塔 / 摩天輪</div>
-          <div class="note-card-desc">神戶塔 <strong>09:00–23:00</strong> (¥1,000)<br>摩天輪 <strong>10:00–22:00</strong> (最後搭乘 21:30)</div>
+
+        <div style="text-align: center; margin-top: 100px; color: #4a453a; letter-spacing: 5px; font-size: 12px;">
+          HAVE A NICE TRIP 2026
         </div>
       </div>
     </div>
 
-    <div class="footer-stripe">
-      <span>神戶 2026 · JUN 5 – JUN 8</span>
-      <span class="gold">• • • • •</span>
-      <span>ITINERARY DAY 1 - 3</span>
-    </div>
+  </div>
 
-  </div> <script>
+  <script>
     function downloadPDF() {
-      // 選擇要匯出為 PDF 的區域
       const element = document.getElementById('itinerary-wrapper');
-      
-      // 設定 html2pdf 的選項 (A4直式列印格式)
       const opt = {
-        margin:       [0, 0, 0, 0],
-        filename:     'Kobe_Itinerary_Day1_3.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin: 0,
+        filename: 'Kobe_Travel_Guide_2026.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
-
-      // 執行轉換與下載
       html2pdf().set(opt).from(element).save();
     }
   </script>
