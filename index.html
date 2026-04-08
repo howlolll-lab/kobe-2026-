@@ -5,7 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>神戶 2026 旅遊行程</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+window.addEventListener('load', () => {
+  const active = document.querySelector('.page.active');
+  if (window.innerWidth <= 768 && active && active.id === 'p0') {
+    document.body.classList.add('cover-lock');
+  }
+});
+window.addEventListener('resize', () => {
+  const active = document.querySelector('.page.active');
+  if (window.innerWidth <= 768 && active && active.id === 'p0') {
+    document.body.classList.add('cover-lock');
+  } else {
+    document.body.classList.remove('cover-lock');
+  }
+});
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ── Reset & Base ── */
@@ -181,7 +197,7 @@ body{
 .card.dark .section-label{color:var(--dim2)}
 
 /* ── Boarding pass ── */
-.bp{background:var(--cream2);border-radius:10px;overflow:hidden;margin:0 22px 10px;width:calc(100% - 44px)}
+.bp{background:var(--cream2);border-radius:10px;overflow:hidden;margin:0 12px 10px;width:calc(100% - 24px)}
 .bp-body{display:flex;align-items:center;padding:16px 18px}
 .bp-city{text-align:center;min-width:80px}
 .bp-code{font-family:'Noto Serif TC',serif;font-size:30px;font-weight:700;color:var(--ink);letter-spacing:2px;line-height:1}
@@ -551,17 +567,17 @@ body.pdf-export .card{
   }
 
   .bp{
-    width:calc(100% - 28px) !important;
-    margin:0 14px 10px !important;
+    width:calc(100% - 16px) !important;
+    margin:0 8px 10px !important;
   }
   .bp-body{
     padding:14px 14px !important;
   }
   .bp-city{
-    min-width:74px !important;
+    min-width:78px !important;
   }
   .bp-stub{
-    width:72px !important;
+    width:78px !important;
   }
 
   #p3 .split[style*="grid-template-columns:1fr 1fr 1fr"]{
@@ -586,6 +602,40 @@ body.pdf-export .card{
 #pdf-export-wrap #p3 .split[style*="grid-template-columns:1fr 1fr 1fr"],
 body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 1fr"]{
   grid-template-columns:1fr !important;
+}
+
+
+/* ── Mobile cover lock ── */
+@media (max-width:768px){
+  body.cover-lock{
+    height:100vh;
+    overflow:hidden;
+  }
+  @supports (height:100dvh){
+    body.cover-lock{
+      height:100dvh;
+    }
+  }
+  #p0{
+    height:100vh !important;
+    overflow:hidden !important;
+  }
+  @supports (height:100dvh){
+    #p0{
+      height:100dvh !important;
+    }
+  }
+  #p0 .cover{
+    height:100vh !important;
+    min-height:100vh !important;
+    overflow:hidden !important;
+  }
+  @supports (height:100dvh){
+    #p0 .cover{
+      height:100dvh !important;
+      min-height:100dvh !important;
+    }
+  }
 }
 
 </style>
@@ -739,7 +789,7 @@ body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 
 
     <hr class="divider">
     <div class="tl">
-      <div class="tl-row"><div class="tl-time">19:00</div><div class="tl-dw"><div class="tl-dot red"></div></div><div class="tl-con"><div class="tl-main red">🥩 <a class="place-link" href="https://maps.google.com/?q=石田屋+神戸牛焼肉+Kobe" target="_blank">石田屋・神戶牛燒肉</a></div><div class="tl-note">北長狭通1-20-9 2F（三宮站步行2分）· ¥7,000–12,000/人 · 中文菜單</div><div class="tl-tag warn">⚠ 已預約！準時到！</div></div></div>
+      <div class="tl-row"><div class="tl-time">19:00</div><div class="tl-dw"><div class="tl-dot red"></div></div><div class="tl-con"><div class="tl-main red">🥩 <a class="place-link" href="https://yakinikuishidaya-hanare.owst.jp/map" target="_blank">石田屋・神戶牛燒肉</a></div><div class="tl-note">北長狭通1-20-9 2F（三宮站步行2分）· ¥7,000–12,000/人 · 中文菜單</div><div class="tl-tag warn">⚠ 已預約！準時到！</div></div></div>
       <div class="tl-row"><div class="tl-time">晚餐後</div><div class="tl-dw"><div class="tl-dot gray"></div></div><div class="tl-con"><div class="tl-main">自由活動</div><div class="tl-note">看體力決定：散步港邊夜景 or 直接回飯店休息</div></div></div>
     </div>
   </div>
@@ -775,11 +825,11 @@ body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 
     <div class="split" style="padding-bottom:8px">
       <div class="opt a">
         <div class="opt-label a">室內選項 A</div>
-        <div class="opt-item"><div class="opt-bullet a"></div><div class="opt-txt"><a class="place-link" href="https://maps.google.com/?q=Hyogo+Prefectural+Museum+of+Art" target="_blank">兵庫縣立美術館</a><span class="opt-sub">從三宮搭地鐵約15分<br>臨海現代建築</span></div></div>
+        <div class="opt-item"><div class="opt-bullet a"></div><div class="opt-txt"><a class="place-link" href="https://maps.google.com/?q=Hyogo+Prefectural+Museum+of+Art" target="_blank">兵庫縣立美術館</a><span class="opt-sub">從上一站北野異人館區回三宮，再搭阪神電車到岩屋站步行約8分<br>臨海現代建築</span></div></div>
       </div>
       <div class="opt b">
         <div class="opt-label b">室內選項 B</div>
-        <div class="opt-item"><div class="opt-bullet b"></div><div class="opt-txt"><a class="place-link" href="https://maps.google.com/?q=Takenaka+Carpentry+Tools+Museum" target="_blank">竹中大工道具館</a><span class="opt-sub">新神戶站步行3分<br>日本傳統工藝</span></div></div>
+        <div class="opt-item"><div class="opt-bullet b"></div><div class="opt-txt"><a class="place-link" href="https://maps.google.com/?q=Takenaka+Carpentry+Tools+Museum" target="_blank">竹中大工道具館</a><span class="opt-sub">從上一站北野異人館區步行往新神戶站約15–20分<br>日本傳統工藝</span></div></div>
       </div>
     </div>
 
@@ -818,7 +868,7 @@ body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 
     <hr class="divider">
     <div class="tl">
       <div class="tl-row"><div class="tl-time">20:00</div><div class="tl-dw"><div class="tl-dot gold"></div></div><div class="tl-con"><div class="tl-main">🍽 晚餐（彈性安排）</div><div class="tl-note">可簡單吃 or 前一天沒吃到的想吃料理</div></div></div>
-      <div class="tl-row"><div class="tl-time">21:00</div><div class="tl-dw"><div class="tl-dot gold"></div></div><div class="tl-con"><div class="tl-main">☕ <a class="place-link" href="https://maps.google.com/?q=VAGUE+KOBE" target="_blank">VAGUE KOBE</a></div><div class="tl-note">北野／三宮周邊可順路插入的咖啡廳備選</div></div></div>
+      <div class="tl-row"><div class="tl-time">16:30</div><div class="tl-dw"><div class="tl-dot gold"></div></div><div class="tl-con"><div class="tl-main">☕ <a class="place-link" href="https://maps.google.com/?q=VAGUE+KOBE" target="_blank">VAGUE KOBE</a></div><div class="tl-note">建議排在 Day2 下午三宮 / 元町 / 港區行程中段休息<br>營業時間 12:00–18:00</div></div></div>
       <div class="tl-row"><div class="tl-time">22:00</div><div class="tl-dw"><div class="tl-dot gray"></div></div><div class="tl-con"><div class="tl-main">🐙 宵夜・明石燒</div><div class="tl-note">飯店附近 · 營業 18:00–02:00</div><div class="tl-tag info"><a class="place-link" href="https://maps.google.com/?q=蛸之壺+本店+Kobe" target="_blank">蛸之壺本店：三宮町3-3-3（元町站1分）</a></div></div></div>
       <div class="tl-row"><div class="tl-time">24:00</div><div class="tl-dw"><div class="tl-dot gray"></div></div><div class="tl-con"><div class="tl-main">🏪 <a class="place-link" href="https://maps.google.com/?q=Don+Quijote+Sannomiya+Kobe" target="_blank">唐吉訶德</a> 24小時</div><div class="tl-note">三宮周邊 · 24小時營業 · 深夜購物</div></div></div>
     </div>
@@ -869,7 +919,28 @@ body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 
         <div class="info-icon">🍰</div>
         <div class="info-body">
           <div class="info-title" style="color:var(--ink)"><a class="place-link" href="https://maps.google.com/?q=Daniel+Ashiya+Kobe" target="_blank">花式可麗露 Daniel 本店</a></div>
-          <div class="info-detail" style="color:var(--dim)"><span class="info-hl" style="color:var(--ink)">交通：</span>飯店→步行6分→三宮站→阪急神戶線→「芦屋川」站→步行5分（約30分）<br>芦屋市三条南町5-1 · 週一・二公休 · 限量販售建議早去！<br><span class="info-hl" style="color:var(--ink)">順路可加：</span><a class="place-link" href="https://maps.google.com/?q=Ashiya+River+bank" target="_blank">芦屋川散步</a>、<a class="place-link" href="https://maps.google.com/?q=Bigot+Ashiya" target="_blank">BIGOT 麵包</a>、<a class="place-link" href="https://maps.google.com/?q=Ashiya+Cafe" target="_blank">周邊咖啡廳</a>，也可回三宮再吃正餐。</div>
+          <div class="info-detail" style="color:var(--dim)"><span class="info-hl" style="color:var(--ink)">交通：</span>飯店→步行6分→三宮站→阪急神戶線→「芦屋川」站→步行5分（約30分）<br>芦屋市三条南町5-1 · 週一・二公休 · 限量販售建議早去！</div>
+        </div>
+      </div>
+      <div class="info-row cream-bg">
+        <div class="info-icon">🌿</div>
+        <div class="info-body">
+          <div class="info-title" style="color:var(--ink)"><a class="place-link" href="https://maps.google.com/?q=Ashiya+River+bank" target="_blank">芦屋川散步</a></div>
+          <div class="info-detail" style="color:var(--dim)">Daniel 買完後可順路散步，街區安靜，適合慢慢走。</div>
+        </div>
+      </div>
+      <div class="info-row cream-bg">
+        <div class="info-icon">🥖</div>
+        <div class="info-body">
+          <div class="info-title" style="color:var(--ink)"><a class="place-link" href="https://maps.google.com/?q=Bigot+Ashiya" target="_blank">BIGOT 麵包</a></div>
+          <div class="info-detail" style="color:var(--dim)">附近可順路買麵包回程帶走，適合排成芦屋小散步。</div>
+        </div>
+      </div>
+      <div class="info-row cream-bg">
+        <div class="info-icon">☕</div>
+        <div class="info-body">
+          <div class="info-title" style="color:var(--ink)"><a class="place-link" href="https://maps.google.com/?q=Ashiya+Cafe" target="_blank">周邊咖啡廳</a></div>
+          <div class="info-detail" style="color:var(--dim)">若想坐一下再回三宮，可在芦屋川站周邊找咖啡廳或甜點店休息。</div>
         </div>
       </div>
     </div>
@@ -1135,6 +1206,11 @@ function showPage(id, btn) {
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
+  if (window.innerWidth <= 768) {
+    document.body.classList.toggle('cover-lock', id === 'p0');
+  } else {
+    document.body.classList.remove('cover-lock');
+  }
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   window.scrollTo(0,0);
 }
