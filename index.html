@@ -653,75 +653,6 @@ body [style*="left: -99999px"] #p3 .split[style*="grid-template-columns:1fr 1fr 
 .map-link-name{font-size:12px;color:var(--ink);line-height:1.5;}
 .map-icon-link{flex-shrink:0;width:24px;height:24px;border-radius:999px;background:var(--ink);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px;font-weight:700;}
 .map-icon-link:hover{opacity:.9;}
-
-/* ── Per-page body background ── */
-body[data-page="p0"], body[data-page="p1"], body[data-page="p6"] {
-  background: #1C1A16;
-}
-body[data-page="p2"], body[data-page="p3"], body[data-page="p4"],
-body[data-page="p5"], body[data-page="p7"], body[data-page="p8"],
-body[data-page="p9"] {
-  background: #F5F0E8;
-}
-
-/* ── Desktop: pages fill viewport ── */
-@media (min-width: 769px) {
-  .page.active {
-    min-height: 100vh;
-  }
-  #p0, #p1, #p6 {
-    background: #1C1A16;
-  }
-  #p2, #p3, #p4, #p5, #p7, #p8, #p9 {
-    background: #F5F0E8;
-  }
-  #p0 .cover, #p1 .card.dark, #p6 .card.dark {
-    min-height: 100vh;
-  }
-}
-
-/* ── Collapsible map-group ── */
-details.map-group {
-  background: var(--cream2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 0;
-}
-details.map-group[open] {
-  margin-bottom: 0;
-}
-summary.map-group-title {
-  list-style: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  user-select: none;
-  margin-bottom: 0;
-}
-summary.map-group-title::-webkit-details-marker { display: none; }
-summary.map-group-title::marker { display: none; content: ''; }
-.map-toggle-icon {
-  font-size: 12px;
-  color: var(--dim);
-  transition: transform .2s;
-  margin-left: auto;
-  flex-shrink: 0;
-}
-details.map-group[open] .map-toggle-icon {
-  transform: rotate(90deg);
-}
-details.map-group .map-links {
-  padding: 0 16px 14px;
-  border-top: 1px solid rgba(0,0,0,0.06);
-  padding-top: 8px;
-}
-
 </style>
 </head>
 <body>
@@ -739,7 +670,7 @@ details.map-group .map-links {
 <button class="nav-btn" onclick="showPage('p9',this)">總地圖</button>
 </nav>
 <!-- ══ PAGE 0: COVER ══ -->
-<div class="page active" id="p0" data-bg="#1C1A16">
+<div class="page active" id="p0">
 <div class="cover" id="card-cover">
 <div class="cover-grid"></div>
 <div class="cover-top"></div>
@@ -766,7 +697,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 1: FLIGHTS ══ -->
-<div class="page" id="p1" data-bg="#1C1A16">
+<div class="page" id="p1">
 <div class="card dark" id="card-flight">
 <div class="card-head">
 <div class="badge">航班資訊</div>
@@ -833,7 +764,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 2: DAY 1 ══ -->
-<div class="page" id="p2" data-bg="#F5F0E8">
+<div class="page" id="p2">
 <div class="card" id="card-day1">
 <div class="card-head">
 <div class="badge">DAY 1</div>
@@ -942,7 +873,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 3: DAY 2 ══ -->
-<div class="page" id="p3" data-bg="#F5F0E8">
+<div class="page" id="p3">
 <div class="card" id="card-day2">
 <div class="card-head">
 <div class="badge">DAY 2</div>
@@ -1018,7 +949,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 4: DAY 3 ══ -->
-<div class="page" id="p4" data-bg="#F5F0E8">
+<div class="page" id="p4">
 <div class="card" id="card-day3">
 <div class="card-head">
 <div class="badge">DAY 3</div>
@@ -1330,7 +1261,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 5: DAY 4 ══ -->
-<div class="page" id="p5" data-bg="#F5F0E8">
+<div class="page" id="p5">
 <div class="card" id="card-day4">
 <div class="card-head">
 <div class="badge">DAY 4</div>
@@ -1356,7 +1287,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 6: COST ══ -->
-<div class="page" id="p6" data-bg="#1C1A16">
+<div class="page" id="p6">
 <div class="card dark" id="card-cost">
 <div class="card-head">
 <div class="badge">💰 費用分攤</div>
@@ -1377,7 +1308,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 7: CAFES ══ -->
-<div class="page" id="p7" data-bg="#F5F0E8">
+<div class="page" id="p7">
 <div class="card" id="card-cafe">
 <div class="card-head">
 <div class="badge">☕ 推薦咖啡廳</div>
@@ -1449,7 +1380,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 8: EXTRA LIST ══ -->
-<div class="page" id="p8" data-bg="#F5F0E8">
+<div class="page" id="p8">
 <div class="card" id="card-extra">
 <div class="card-head">
 <div class="badge">EXTRA</div>
@@ -1538,7 +1469,7 @@ details.map-group .map-links {
 </div>
 </div>
 <!-- ══ PAGE 9: MASTER MAP ══ -->
-<div class="page" id="p9" data-bg="#F5F0E8">
+<div class="page" id="p9">
 <div class="card" id="card-map">
 <div class="card-head">
 <div class="badge">MASTER MAP</div>
@@ -1572,7 +1503,7 @@ details.map-group .map-links {
 </a>
 </div>
 <hr class="divider"/>
-<div class="section-label">地標分類總覽</div><div class="map-summary"><details class="map-group"><summary class="map-group-title">🏨 住宿・交通<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">艾美麗 Hotel Monte Hermana Kobe Amalie</div><a aria-label="艾美麗 Hotel Monte Hermana Kobe Amalie 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Hotel+Monte+Hermana+Kobe+Amalie" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶機場</div><a aria-label="神戶機場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Airport" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">三宮站</div><a aria-label="三宮站 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sannomiya+Station+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">元町站</div><a aria-label="元町站 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Motomachi+Station+Kobe" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🗓️ Day 1 更新版<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">生田神社</div><a aria-label="生田神社 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Ikuta+Shrine+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">VAGUE KOBE</div><a aria-label="VAGUE KOBE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=VAGUE+KOBE" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">麵包超人博物館</div><a aria-label="麵包超人博物館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Anpanman+Children%27s+Museum+%26+Mall" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Concerto 協奏曲號</div><a aria-label="Concerto 協奏曲號 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=THE+KOBE+CRUISE+Concerto" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">石田屋・神戶牛燒肉</div><a aria-label="石田屋・神戶牛燒肉 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%9F%B3%E7%94%B0%E5%B1%8B+%E7%A5%9E%E6%88%B8%E7%89%9B%E7%87%92%E8%82%89+%E4%B8%89%E5%AE%AE" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🗓️ Day 2 更新版<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">FREUNDLIEB 教堂咖啡廳</div><a aria-label="FREUNDLIEB 教堂咖啡廳 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E3%83%95%E3%83%AD%E3%82%A4%E3%83%B3%E3%83%89%E3%83%AA%E3%83%BC%E3%83%96+Freundlieb+%E7%A5%9E%E6%88%B8%E7%94%9F%E7%94%B0%E7%94%BA" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">北野異人館區</div><a aria-label="北野異人館區 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Ijinkan-Gai+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">北野天滿神社</div><a aria-label="北野天滿神社 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Tenmangu+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">兵庫縣立美術館</div><a aria-label="兵庫縣立美術館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Hyogo+Prefectural+Museum+of+Art" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">竹中大工道具館</div><a aria-label="竹中大工道具館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Takenaka+Carpentry+Tools+Museum" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Harborland</div><a aria-label="Harborland 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Harborland" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">馬賽克廣場</div><a aria-label="馬賽克廣場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=umie+MOSAIC+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">摩天輪（umie旁）</div><a aria-label="摩天輪（umie旁） 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Harborland+umie+Mosaic+Big+Ferris+Wheel" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">蛸之壺本店</div><a aria-label="蛸之壺本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E8%9B%B8%E4%B9%8B%E5%A3%BA+%E6%9C%AC%E5%BA%97+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">唐吉訶德 三宮</div><a aria-label="唐吉訶德 三宮 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Don+Quijote+Sannomiya+Kobe" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🗺️ Day 3 路線 A｜港區<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">神戶塔</div><a aria-label="神戶塔 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Port+Tower" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">美利堅公園・BE KOBE</div><a aria-label="美利堅公園・BE KOBE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Meriken+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶海洋博物館</div><a aria-label="神戶海洋博物館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Maritime+Museum" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">AQUALIVE 神戶水族館</div><a aria-label="AQUALIVE 神戶水族館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=AQUALIVE+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">星巴克 美利堅公園店</div><a aria-label="星巴克 美利堅公園店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Starbucks+Meriken+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">PORT TERRACE</div><a aria-label="PORT TERRACE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=PORT+TERRACE+Kobe+Port+Tower" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶煉瓦倉庫</div><a aria-label="神戶煉瓦倉庫 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Renga+Soko" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">馬賽克廣場</div><a aria-label="馬賽克廣場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=umie+MOSAIC+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ル・パン総本店</div><a aria-label="ル・パン総本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Le+Pan+Kobe+Kitano+Harborland" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">カフェ モロゾフ umie店</div><a aria-label="カフェ モロゾフ umie店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Cafe+Morozoff+Kobe+Harborland+umie" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ICE CREAM UNITED</div><a aria-label="ICE CREAM UNITED 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=ICE+CREAM+UNITED+Kobe+Harborland" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🌊 Day 3 路線 B｜須磨<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">須磨海濱公園</div><a aria-label="須磨海濱公園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Suma+Seaside+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">須磨シーワールド</div><a aria-label="須磨シーワールド 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Suma+Sea+World+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">NORTHSHORE Suma</div><a aria-label="NORTHSHORE Suma 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=NORTHSHORE+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">sweets cafe Riche</div><a aria-label="sweets cafe Riche 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=sweets+cafe+Riche+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">YURT CAFE &amp; BBQ PARK</div><a aria-label="YURT CAFE &amp; BBQ PARK 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=YURT+CAFE+BBQ+PARK+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Tooth Tooth シーサイドカフェ</div><a aria-label="Tooth Tooth シーサイドカフェ 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Patisserie+Tooth+Tooth+Seaside+Cafe+Kobe" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🌉 Day 3 路線 C｜舞子<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">舞子公園</div><a aria-label="舞子公園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Maiko+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">明石海峽大橋</div><a aria-label="明石海峽大橋 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Akashi+Kaikyo+Bridge" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">孫中山紀念館</div><a aria-label="孫中山紀念館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sun+Yat-sen+Memorial+Hall+Maiko+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">AWAWA Cafe</div><a aria-label="AWAWA Cafe 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=AWAWA+Cafe+Maiko+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">三井 Outlet Marine Pia 神戶</div><a aria-label="三井 Outlet Marine Pia 神戶 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=MITSUI+OUTLET+PARK+Marine+Pia+Kobe" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">🍰 Day 3 路線 D｜芦屋<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">Daniel 本店</div><a aria-label="Daniel 本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Daniel+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">芦屋川河岸散步</div><a aria-label="芦屋川河岸散步 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Ashiya+River+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">BIGOT 法式麵包</div><a aria-label="BIGOT 法式麵包 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=BIGOT+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">café BradipO</div><a aria-label="café BradipO 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=cafe+BradipO+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">テアモ</div><a aria-label="テアモ 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Teamo+Cafe+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Accesoir</div><a aria-label="Accesoir 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Accesoir+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ラポルテ芦屋</div><a aria-label="ラポルテ芦屋 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Laporte+Ashiya+Shopping" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">☕ 咖啡廳<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">西村咖啡 中山手本館</div><a aria-label="西村咖啡 中山手本館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%A5%9E%E6%88%B8%E3%81%AB%E3%81%97%E3%82%80%E3%82%89%E7%8F%88%E7%90%B2%E5%BA%97+%E4%B8%AD%E5%B1%B1%E6%89%8B%E6%9C%AC%E9%A4%A8+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">西村咖啡 北野坂店</div><a aria-label="西村咖啡 北野坂店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%A5%9E%E6%88%B8%E3%81%AB%E3%81%97%E3%82%80%E3%82%89%E7%8F%88%E7%90%B2%E5%BA%97+%E5%8C%97%E9%87%8E%E5%9D%82%E5%BA%97+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">星巴克 北野異人館店</div><a aria-label="星巴克 北野異人館店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E6%98%9F%E5%B7%B4%E5%85%8B+%E5%8C%97%E9%87%8E%E7%89%A9%E8%AA%9E%E9%A4%A8+%E7%A5%9E%E6%88%B8+Starbucks" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Kitano Moore House Café</div><a aria-label="Kitano Moore House Café 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Moore+House+cafe+%E7%A5%9E%E6%88%B8%E5%8C%97%E9%87%8E" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">KOBE EVIAN COFFEE</div><a aria-label="KOBE EVIAN COFFEE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=KOBE+EVIAN+COFFEE+%E5%85%83%E7%94%BA" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">MOTOMACHI 喫茶</div><a aria-label="MOTOMACHI 喫茶 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=MOTOMACHI%E5%96%AB%E8%8C%B6+%E7%A5%9E%E6%88%B8%E5%85%83%E7%94%BA" target="_blank">↗</a></div></details></div><details class="map-group"><summary class="map-group-title">⭐ 補充清單<span class="map-toggle-icon">▸</span></summary><div class="map-links"><div class="map-link-row"><div class="map-link-name">南京町</div><a aria-label="南京町 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Nankinmachi+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">布引香草園＋纜車</div><a aria-label="布引香草園＋纜車 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Nunobiki+Herb+Gardens+%26+Ropeway" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">相樂園</div><a aria-label="相樂園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sorakuen+Garden+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">BE KOBE 雕字</div><a aria-label="BE KOBE 雕字 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=BE+KOBE+Meriken+Park" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Steakland 神戶館</div><a aria-label="Steakland 神戶館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Steakland+Kobe-kan" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">老祥記</div><a aria-label="老祥記 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E8%80%81%E7%A5%A5%E8%A8%98+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">觀音屋 元町本店</div><a aria-label="觀音屋 元町本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kannonya+Motomachi+Honten" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ISUZU BAKERY 本店</div><a aria-label="ISUZU BAKERY 本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=ISUZU+BAKERY+Honten+Kobe" target="_blank">↗</a></div></details></div></div>
+<div class="section-label">地標分類總覽</div><div class="map-summary"><div class="map-group"><div class="map-group-title">🏨 住宿・交通</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">艾美麗 Hotel Monte Hermana Kobe Amalie</div><a aria-label="艾美麗 Hotel Monte Hermana Kobe Amalie 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Hotel+Monte+Hermana+Kobe+Amalie" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶機場</div><a aria-label="神戶機場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Airport" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">三宮站</div><a aria-label="三宮站 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sannomiya+Station+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">元町站</div><a aria-label="元町站 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Motomachi+Station+Kobe" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🗓️ Day 1 更新版</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">生田神社</div><a aria-label="生田神社 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Ikuta+Shrine+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">VAGUE KOBE</div><a aria-label="VAGUE KOBE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=VAGUE+KOBE" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">麵包超人博物館</div><a aria-label="麵包超人博物館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Anpanman+Children%27s+Museum+%26+Mall" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Concerto 協奏曲號</div><a aria-label="Concerto 協奏曲號 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=THE+KOBE+CRUISE+Concerto" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">石田屋・神戶牛燒肉</div><a aria-label="石田屋・神戶牛燒肉 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%9F%B3%E7%94%B0%E5%B1%8B+%E7%A5%9E%E6%88%B8%E7%89%9B%E7%87%92%E8%82%89+%E4%B8%89%E5%AE%AE" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🗓️ Day 2 更新版</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">FREUNDLIEB 教堂咖啡廳</div><a aria-label="FREUNDLIEB 教堂咖啡廳 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E3%83%95%E3%83%AD%E3%82%A4%E3%83%B3%E3%83%89%E3%83%AA%E3%83%BC%E3%83%96+Freundlieb+%E7%A5%9E%E6%88%B8%E7%94%9F%E7%94%B0%E7%94%BA" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">北野異人館區</div><a aria-label="北野異人館區 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Ijinkan-Gai+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">北野天滿神社</div><a aria-label="北野天滿神社 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Tenmangu+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">兵庫縣立美術館</div><a aria-label="兵庫縣立美術館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Hyogo+Prefectural+Museum+of+Art" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">竹中大工道具館</div><a aria-label="竹中大工道具館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Takenaka+Carpentry+Tools+Museum" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Harborland</div><a aria-label="Harborland 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Harborland" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">馬賽克廣場</div><a aria-label="馬賽克廣場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=umie+MOSAIC+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">摩天輪（umie旁）</div><a aria-label="摩天輪（umie旁） 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Harborland+umie+Mosaic+Big+Ferris+Wheel" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">蛸之壺本店</div><a aria-label="蛸之壺本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E8%9B%B8%E4%B9%8B%E5%A3%BA+%E6%9C%AC%E5%BA%97+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">唐吉訶德 三宮</div><a aria-label="唐吉訶德 三宮 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Don+Quijote+Sannomiya+Kobe" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🗺️ Day 3 路線 A｜港區</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">神戶塔</div><a aria-label="神戶塔 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Port+Tower" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">美利堅公園・BE KOBE</div><a aria-label="美利堅公園・BE KOBE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Meriken+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶海洋博物館</div><a aria-label="神戶海洋博物館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Maritime+Museum" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">AQUALIVE 神戶水族館</div><a aria-label="AQUALIVE 神戶水族館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=AQUALIVE+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">星巴克 美利堅公園店</div><a aria-label="星巴克 美利堅公園店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Starbucks+Meriken+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">PORT TERRACE</div><a aria-label="PORT TERRACE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=PORT+TERRACE+Kobe+Port+Tower" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">神戶煉瓦倉庫</div><a aria-label="神戶煉瓦倉庫 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Renga+Soko" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">馬賽克廣場</div><a aria-label="馬賽克廣場 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=umie+MOSAIC+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ル・パン総本店</div><a aria-label="ル・パン総本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Le+Pan+Kobe+Kitano+Harborland" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">カフェ モロゾフ umie店</div><a aria-label="カフェ モロゾフ umie店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Cafe+Morozoff+Kobe+Harborland+umie" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ICE CREAM UNITED</div><a aria-label="ICE CREAM UNITED 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=ICE+CREAM+UNITED+Kobe+Harborland" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🌊 Day 3 路線 B｜須磨</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">須磨海濱公園</div><a aria-label="須磨海濱公園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Suma+Seaside+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">須磨シーワールド</div><a aria-label="須磨シーワールド 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Suma+Sea+World+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">NORTHSHORE Suma</div><a aria-label="NORTHSHORE Suma 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=NORTHSHORE+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">sweets cafe Riche</div><a aria-label="sweets cafe Riche 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=sweets+cafe+Riche+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">YURT CAFE &amp; BBQ PARK</div><a aria-label="YURT CAFE &amp; BBQ PARK 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=YURT+CAFE+BBQ+PARK+Suma+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Tooth Tooth シーサイドカフェ</div><a aria-label="Tooth Tooth シーサイドカフェ 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Patisserie+Tooth+Tooth+Seaside+Cafe+Kobe" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🌉 Day 3 路線 C｜舞子</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">舞子公園</div><a aria-label="舞子公園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Maiko+Park+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">明石海峽大橋</div><a aria-label="明石海峽大橋 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Akashi+Kaikyo+Bridge" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">孫中山紀念館</div><a aria-label="孫中山紀念館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sun+Yat-sen+Memorial+Hall+Maiko+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">AWAWA Cafe</div><a aria-label="AWAWA Cafe 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=AWAWA+Cafe+Maiko+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">三井 Outlet Marine Pia 神戶</div><a aria-label="三井 Outlet Marine Pia 神戶 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=MITSUI+OUTLET+PARK+Marine+Pia+Kobe" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">🍰 Day 3 路線 D｜芦屋</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">Daniel 本店</div><a aria-label="Daniel 本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Daniel+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">芦屋川河岸散步</div><a aria-label="芦屋川河岸散步 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Ashiya+River+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">BIGOT 法式麵包</div><a aria-label="BIGOT 法式麵包 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=BIGOT+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">café BradipO</div><a aria-label="café BradipO 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=cafe+BradipO+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">テアモ</div><a aria-label="テアモ 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Teamo+Cafe+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Accesoir</div><a aria-label="Accesoir 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Accesoir+Ashiya+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ラポルテ芦屋</div><a aria-label="ラポルテ芦屋 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Laporte+Ashiya+Shopping" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">☕ 咖啡廳</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">西村咖啡 中山手本館</div><a aria-label="西村咖啡 中山手本館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%A5%9E%E6%88%B8%E3%81%AB%E3%81%97%E3%82%80%E3%82%89%E7%8F%88%E7%90%B2%E5%BA%97+%E4%B8%AD%E5%B1%B1%E6%89%8B%E6%9C%AC%E9%A4%A8+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">西村咖啡 北野坂店</div><a aria-label="西村咖啡 北野坂店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E7%A5%9E%E6%88%B8%E3%81%AB%E3%81%97%E3%82%80%E3%82%89%E7%8F%88%E7%90%B2%E5%BA%97+%E5%8C%97%E9%87%8E%E5%9D%82%E5%BA%97+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">星巴克 北野異人館店</div><a aria-label="星巴克 北野異人館店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E6%98%9F%E5%B7%B4%E5%85%8B+%E5%8C%97%E9%87%8E%E7%89%A9%E8%AA%9E%E9%A4%A8+%E7%A5%9E%E6%88%B8+Starbucks" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Kitano Moore House Café</div><a aria-label="Kitano Moore House Café 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kitano+Moore+House+cafe+%E7%A5%9E%E6%88%B8%E5%8C%97%E9%87%8E" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">KOBE EVIAN COFFEE</div><a aria-label="KOBE EVIAN COFFEE 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=KOBE+EVIAN+COFFEE+%E5%85%83%E7%94%BA" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">MOTOMACHI 喫茶</div><a aria-label="MOTOMACHI 喫茶 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=MOTOMACHI%E5%96%AB%E8%8C%B6+%E7%A5%9E%E6%88%B8%E5%85%83%E7%94%BA" target="_blank">↗</a></div></div></div><div class="map-group"><div class="map-group-title">⭐ 補充清單</div><div class="map-links"><div class="map-link-row"><div class="map-link-name">南京町</div><a aria-label="南京町 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Nankinmachi+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">布引香草園＋纜車</div><a aria-label="布引香草園＋纜車 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kobe+Nunobiki+Herb+Gardens+%26+Ropeway" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">相樂園</div><a aria-label="相樂園 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Sorakuen+Garden+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">BE KOBE 雕字</div><a aria-label="BE KOBE 雕字 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=BE+KOBE+Meriken+Park" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">Steakland 神戶館</div><a aria-label="Steakland 神戶館 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Steakland+Kobe-kan" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">老祥記</div><a aria-label="老祥記 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=%E8%80%81%E7%A5%A5%E8%A8%98+Kobe" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">觀音屋 元町本店</div><a aria-label="觀音屋 元町本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=Kannonya+Motomachi+Honten" target="_blank">↗</a></div><div class="map-link-row"><div class="map-link-name">ISUZU BAKERY 本店</div><a aria-label="ISUZU BAKERY 本店 地圖連結" class="map-icon-link" href="https://maps.google.com/?q=ISUZU+BAKERY+Honten+Kobe" target="_blank">↗</a></div></div></div></div>
 
 <hr class="divider"/>
 <div class="section-label">Google My Maps 匯入方式</div>
@@ -1604,9 +1535,6 @@ function showPage(id, btn) {
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
-  document.body.setAttribute('data-page', id);
-  const pageBg = document.getElementById(id).getAttribute('data-bg') || '#F5F0E8';
-  document.body.style.background = pageBg;
   if (window.innerWidth <= 768) {
     document.body.classList.toggle('cover-lock', id === 'p0');
   } else {
@@ -1643,122 +1571,142 @@ function collectLinks(container) {
   }).filter(l => l.width > 0 && l.height > 0);
 }
 
-// ── PDF: page 1 = cover only, page 2 = all other pages seamless long page ──
+// ── Download PDF: every page = one PDF page, full content, no truncation ──
 async function downloadAllPages() {
   const { jsPDF } = window.jspdf;
   const btn = document.querySelector('.dl-btn');
   if (!btn) return;
-  btn.textContent = '...';
+
+  btn.textContent = '產生中…';
   btn.disabled = true;
 
+  // Remember current state
   const activePage = document.querySelector('.page.active');
   const activeBtn  = document.querySelector('.nav-btn.active');
-  const RENDER_W = 430;
-  const SCALE = 2;
 
+  // Collect all page IDs in nav order
+  const pageIds = Array.from(document.querySelectorAll('.nav-btn'))
+    .map(b => { const m = b.getAttribute('onclick').match(/'(p\d+)'/); return m ? m[1] : null; })
+    .filter(Boolean);
+
+  const RENDER_W = 430;   // px – wide enough for all content
+  const SCALE    = 2;     // retina
+
+  // Offscreen container
   const sandbox = document.createElement('div');
-  sandbox.style.cssText = 'position:absolute;left:-99999px;top:0;width:'+RENDER_W+'px;overflow:visible;pointer-events:none;';
+  sandbox.style.cssText = [
+    'position:absolute', 'left:-99999px', 'top:0',
+    `width:${RENDER_W}px`, 'background:#FFFFFF',
+    'overflow:visible', 'pointer-events:none'
+  ].join(';');
   document.body.appendChild(sandbox);
+
   let pdf = null;
 
-  function collectLinks(container) {
-    const rect = container.getBoundingClientRect();
-    return Array.from(container.querySelectorAll('a[href]')).map(a => {
-      const r = a.getBoundingClientRect();
-      return { href: a.href, left: r.left-rect.left, top: r.top-rect.top, width: r.width, height: r.height };
-    }).filter(l => l.width>0 && l.height>0 && /^https?:/i.test(l.href));
-  }
-
   try {
-    // ── COVER PAGE ──
-    sandbox.innerHTML = '';
-    sandbox.style.background = '#1C1A16';
-    const coverSrc = document.getElementById('p0');
-    const coverClone = coverSrc.cloneNode(true);
-    coverClone.style.cssText = 'display:block;width:'+RENDER_W+'px;max-width:'+RENDER_W+'px;min-width:'+RENDER_W+'px;padding:0;margin:0;overflow:visible;';
-    coverClone.querySelectorAll('.cover').forEach(el => {
-      el.style.width = RENDER_W+'px'; el.style.maxWidth = RENDER_W+'px';
-      el.style.minHeight = '640px'; el.style.margin = '0';
-      el.style.borderRadius = '0'; el.style.boxShadow = 'none';
-    });
-    sandbox.appendChild(coverClone);
-    await new Promise(r => setTimeout(r, 200));
+    for (let i = 0; i < pageIds.length; i++) {
+      const pid = pageIds[i];
+      const srcPage = document.getElementById(pid);
+      if (!srcPage) continue;
 
-    const coverH = sandbox.scrollHeight;
-    const coverCanvas = await html2canvas(sandbox, {
-      scale: SCALE, useCORS: true, logging: false,
-      backgroundColor: '#1C1A16', width: RENDER_W, height: coverH,
-      windowWidth: RENDER_W, scrollX: 0, scrollY: 0
-    });
-    const coverLinks = collectLinks(sandbox);
+      // Clone page into sandbox so it renders all content
+      sandbox.innerHTML = '';
+      const clone = srcPage.cloneNode(true);
+      clone.style.cssText = [
+        'display:block', `width:${RENDER_W}px`,
+        `max-width:${RENDER_W}px`, `min-width:${RENDER_W}px`,
+        'padding:0', 'margin:0', 'overflow:visible'
+      ].join(';');
 
-    pdf = new jsPDF({
-      orientation: 'portrait', unit: 'px',
-      format: [coverCanvas.width/SCALE, coverCanvas.height/SCALE], compress: true
-    });
-    pdf.addImage(coverCanvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0,
-      coverCanvas.width/SCALE, coverCanvas.height/SCALE);
-    coverLinks.forEach(l => {
-      pdf.link(l.left/SCALE, l.top/SCALE, l.width/SCALE, Math.max(4, l.height/SCALE), { url: l.href });
-    });
-
-    // ── BODY: all other pages stacked seamlessly into one long page ──
-    sandbox.innerHTML = '';
-    const combined = document.createElement('div');
-    combined.style.cssText = 'width:'+RENDER_W+'px;overflow:visible;';
-
-    const pageIds = Array.from(document.querySelectorAll('.nav-btn'))
-      .map(b => { const m = b.getAttribute('onclick')?.match(/'(p\d+)'/); return m?m[1]:null; })
-      .filter(id => id && id !== 'p0');
-
-    pageIds.forEach(pid => {
-      const src = document.getElementById(pid);
-      if (!src) return;
-      const bg = src.getAttribute('data-bg') || '#F5F0E8';
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'width:'+RENDER_W+'px;background:'+bg+';overflow:visible;';
-      const clone = src.cloneNode(true);
-      clone.style.cssText = 'display:block;width:'+RENDER_W+'px;max-width:'+RENDER_W+'px;min-width:'+RENDER_W+'px;padding:0;margin:0;overflow:visible;';
-      clone.querySelectorAll('.card,.cover').forEach(el => {
-        el.style.width = RENDER_W+'px'; el.style.maxWidth = RENDER_W+'px';
-        el.style.margin = '0 0 0 0'; el.style.borderRadius = '0'; el.style.boxShadow = 'none';
+      // Make cards full-width, no border radius / shadow
+      clone.querySelectorAll('.card, .cover').forEach(el => {
+        el.style.width = RENDER_W + 'px';
+        el.style.maxWidth = RENDER_W + 'px';
+        el.style.minWidth = RENDER_W + 'px';
+        el.style.margin = '0 0 12px 0';
+        el.style.borderRadius = '0';
+        el.style.boxShadow = 'none';
       });
-      // Open all details elements for PDF rendering
-      clone.querySelectorAll('details').forEach(d => d.setAttribute('open',''));
-      wrap.appendChild(clone);
-      combined.appendChild(wrap);
-    });
 
-    sandbox.appendChild(combined);
-    await new Promise(r => setTimeout(r, 350));
+      // Fix cover height for desktop clone
+      const coverEl = clone.querySelector('.cover');
+      if (coverEl) {
+        coverEl.style.minHeight = '560px';
+      }
 
-    const bodyH = sandbox.scrollHeight;
-    const bodyCanvas = await html2canvas(sandbox, {
-      scale: SCALE, useCORS: true, logging: false,
-      backgroundColor: '#F5F0E8', width: RENDER_W, height: bodyH,
-      windowWidth: RENDER_W, scrollX: 0, scrollY: 0
-    });
-    const bodyLinks = collectLinks(sandbox);
+      sandbox.appendChild(clone);
 
-    const bpW = bodyCanvas.width/SCALE;
-    const bpH = bodyCanvas.height/SCALE;
-    pdf.addPage([bpW, bpH], 'portrait');
-    pdf.addImage(bodyCanvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, bpW, bpH);
-    bodyLinks.forEach(l => {
-      pdf.link(l.left/SCALE, l.top/SCALE, l.width/SCALE, Math.max(4, l.height/SCALE), { url: l.href });
-    });
+      // Wait for layout
+      await new Promise(r => setTimeout(r, 180));
 
-    pdf.save('神戶2026_完整行程.pdf');
+      // Measure real rendered height
+      const realH = sandbox.scrollHeight;
 
-  } catch(e) {
-    alert('PDF 產生失敗\n' + e.message);
+      const canvas = await html2canvas(sandbox, {
+        scale: SCALE,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#F5F0E8',
+        width: RENDER_W,
+        height: realH,
+        windowWidth: RENDER_W,
+        scrollX: 0,
+        scrollY: 0
+      });
+
+      const imgW = canvas.width;
+      const imgH = canvas.height;
+      // PDF page size in px (1:1 with canvas at scale=1)
+      const pdfPageW = imgW / SCALE;
+      const pdfPageH = imgH / SCALE;
+
+      if (!pdf) {
+        pdf = new jsPDF({
+          orientation: pdfPageH >= pdfPageW ? 'portrait' : 'landscape',
+          unit: 'px',
+          format: [pdfPageW, pdfPageH],
+          compress: true
+        });
+      } else {
+        pdf.addPage(
+          [pdfPageW, pdfPageH],
+          pdfPageH >= pdfPageW ? 'portrait' : 'landscape'
+        );
+      }
+
+      pdf.addImage(
+        canvas.toDataURL('image/jpeg', 0.94),
+        'JPEG', 0, 0, pdfPageW, pdfPageH
+      );
+
+      // Add clickable links
+      const sandboxRect = sandbox.getBoundingClientRect();
+      clone.querySelectorAll('a[href]').forEach(a => {
+        const r = a.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0 && /^https?:/i.test(a.href)) {
+          const lx = (r.left - sandboxRect.left) / SCALE;
+          const ly = (r.top  - sandboxRect.top)  / SCALE;
+          const lw = r.width  / SCALE;
+          const lh = Math.max(6, r.height / SCALE);
+          pdf.link(lx, ly, lw, lh, { url: a.href });
+        }
+      });
+    }
+
+    if (pdf) pdf.save('神戶2026_完整行程.pdf');
+
+  } catch (e) {
+    alert('PDF 產生失敗，請再試一次\n' + e.message);
     console.error(e);
   } finally {
     if (sandbox.parentNode) sandbox.parentNode.removeChild(sandbox);
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+
+    // Restore original active state
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     if (activePage) activePage.classList.add('active');
-    if (activeBtn) activeBtn.classList.add('active');
+    if (activeBtn)  activeBtn.classList.add('active');
+
     btn.textContent = 'PDF';
     btn.disabled = false;
   }
